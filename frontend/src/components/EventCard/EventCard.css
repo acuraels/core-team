@@ -58,10 +58,10 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 1; /* Растягивает блок на всю доступную высоту */
 }
 
-.event-title {
+.event-title, .event-name { /* Добавил .event-name для совместимости */
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0 0 12px 0;
@@ -94,10 +94,10 @@
     line-height: 1.5;
     margin-bottom: 20px;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Обрезаем текст после 3 строк */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    flex-grow: 1;
+    /* Убрал flex-grow отсюда, чтобы он не конфликтовал с margin-top: auto у футера */
 }
 
 .event-button {
@@ -114,4 +114,43 @@
 
 .event-button:hover {
     background-color: #055228;
+}
+
+/* --- НОВЫЕ СТИЛИ ДЛЯ УЧАСТНИКОВ --- */
+
+.event-footer {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between; /* Разносим элементы по краям */
+    align-items: center;
+    gap: 10px; /* Отступ на случай, если текст длинный и элементы сблизятся */
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7280;
+    font-size: 0.85rem; /* Чуть уменьшил шрифт, чтобы влезло в одну строку */
+    white-space: nowrap; /* Запрещаем перенос текста */
+}
+
+.stat-item b {
+    color: #077037;
+    font-weight: 700;
+}
+
+.participants-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.participants-info b {
+    color: #077037;
+    font-weight: 700;
 }

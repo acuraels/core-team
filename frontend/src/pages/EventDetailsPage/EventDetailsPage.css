@@ -153,6 +153,241 @@
     box-shadow: 0 6px 16px rgba(7, 112, 55, 0.4);
 }
 
+.admin-actions-block {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e5e7eb; /* Разделитель перед описанием */
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Кнопка редактирования - Второстепенная (серая/белая) */
+.edit-btn {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.edit-btn:hover {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+/* Кнопка записи читателя - Основная (зеленая) */
+.register-reader-btn {
+    background-color: #077037;
+    color: #ffffff;
+    border: 1px solid #077037;
+}
+
+.register-reader-btn:hover {
+    background-color: #055228;
+    box-shadow: 0 4px 12px rgba(7, 112, 55, 0.2);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Чтобы было поверх всего */
+    backdrop-filter: blur(4px); /* Эффект размытия фона */
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Контейнер окна */
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    margin: 20px;
+    animation: scaleIn 0.2s ease-out;
+}
+
+/* Шапка */
+.modal-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Тело (форма) */
+.modal-body {
+    padding: 24px;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; /* Важно, чтобы padding не ломал ширину */
+}
+
+.modal-input:focus {
+    border-color: #077037;
+    box-shadow: 0 0 0 3px rgba(7, 112, 55, 0.1);
+}
+
+/* Подвал с кнопками */
+.modal-footer {
+    padding: 20px 24px;
+    background-color: #f9fafb;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.cancel-btn {
+    background: #fff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+}
+
+.cancel-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.submit-btn {
+    background: #077037;
+    color: #fff;
+}
+
+.submit-btn:hover {
+    background: #055228;
+    box-shadow: 0 2px 8px rgba(7, 112, 55, 0.2);
+}
+
+/* Контейнер для загрузки */
+.file-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+/* Кнопка загрузки */
+.upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #f3f4f6;
+    border: 1px dashed #9ca3af; /* Пунктирная рамка, типичная для загрузки */
+    border-radius: 8px;
+    color: #374151;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #077037;
+    color: #077037;
+}
+
+/* Мини-превью */
+.image-preview-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-preview-mini img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.file-name {
+    font-size: 0.85rem;
+    color: #077037;
+    font-weight: 500;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 /* Адаптив */
 @media (max-width: 1024px) {
     .event-details-content {
@@ -186,5 +421,16 @@
     
     .event-booking-button {
         width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-actions-block {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
