@@ -17,13 +17,12 @@ services:
       timeout: 5s
       retries: 10
 
-  api:
+  backend:
     build:
       context: .
       dockerfile: backend/UnifiedReader/Api/Dockerfile
       args:
         - BUILD_CONFIGURATION=Release
-    container_name: unified-reader-api
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -34,21 +33,31 @@ services:
       - JwtOptions__SecretKey=230903a8-640a-4502-93b7-9ce3c490d41f8b2c9e7a5f1d3b6e8c0a2f4d6e8b1c3a5f7d9e2b4c6f8a0
       - JwtOptions__AccessTokenLifetimeMinutes=60
     ports:
-      - "8000:8080"
+      - "8004:8080"
     depends_on:
       postgres:
         condition: service_healthy
 
-#  ai:
-#    build:
-#      context: ai
-#      dockerfile: Dockerfile
-#    restart: unless-stopped
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+  ai:
+    build:
+      context: ai
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8002:5173"
+    depends_on:
+      - backend
+      - ai
 
 
 volumes:

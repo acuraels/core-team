@@ -30,16 +30,20 @@ public class Startup
         services.AddJwtAuth(Configuration);
         services.AddAuthorization();
         services.AddControllers();
+
+    
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowReactApp", policy =>
+            options.AddDefaultPolicy(builder =>
             {
-                policy.WithOrigins("http://localhost:5173")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                builder
+                    .SetIsOriginAllowed(_ => true) // Разрешить любые источники
+                    .AllowAnyMethod()               // Разрешить любые методы
+                    .AllowAnyHeader()               // Разрешить любые заголовки
+                    .AllowCredentials();            // Разрешить куки и токены
             });
         });
+
         services.AddInfrastructure();
         services.AddDal();
         services.AddLogic();
@@ -58,7 +62,8 @@ public class Startup
         }
 
         app.UseRouting();
-        app.UseCors("AllowReactApp");
+        app.UseCors();
+
         app.UseAuthentication();
         app.UseAuthorization();
 

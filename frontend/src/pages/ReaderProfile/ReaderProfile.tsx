@@ -6,6 +6,7 @@ import Footer from "../../components/Footer/Footer";
 import BookCard from "../../components/BookCard/BookCard";
 
 import "./ReaderProfile.css";
+import axios from "axios";
 
 interface Book {
     id: string | number;
@@ -23,6 +24,23 @@ const ReaderProfile = () => {
     const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
     const [issuedBooks, setIssuedBooks] = useState<Book[]>([]);
     const [activeTab, setActiveTab] = useState<BooksTab>("issued");
+
+    const checkButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        const userId = localStorage.getItem('user_id');
+
+        try {
+            const response = await axios.get<Book[]>(`http://localhost:8001/api/v1/recommend/${userId}`, {
+                withCredentials: true
+            });
+            const books = response.data;
+
+            console.log("Книги получены:", books);
+        } catch (error) {
+            console.error("Неизвестная ошибка:", error);
+        }
+    };
 
     // генерим / берём 6-значный код читателя
     useEffect(() => {
@@ -219,6 +237,7 @@ const ReaderProfile = () => {
                     </section>
                 </div>
             </main>
+            <button onClick={checkButton}>ПРОВЕРКА</button>
             <Footer />
         </>
     );
