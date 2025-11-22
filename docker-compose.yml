@@ -19,8 +19,10 @@ services:
 
   api:
     build:
-      context: backend/UnifiedReader/Api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/UnifiedReader/Api/Dockerfile
+      args:
+        - BUILD_CONFIGURATION=Release
     container_name: unified-reader-api
     restart: unless-stopped
     environment:
