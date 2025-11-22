@@ -140,11 +140,6 @@ public sealed class UsersController : ControllerBase
             return ValidationProblem(ModelState);
         }
 
-        if (request.Role != UserRole.Reader)
-        {
-            return Forbid("Библиотекарь может создавать только читателей");
-        }
-
         var user = await _userCreationService.CreateAsync(
             request.Name,
             request.Surname,
