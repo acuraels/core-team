@@ -25,8 +25,7 @@ public static class JwtAuthStartUp
             .ValidateOnStart();
 
         var jwtSection = configuration.GetSection(nameof(JwtOptions));
-        var jwtOptions = jwtSection.Get<JwtOptions>() 
-                         ?? throw new InvalidOperationException("Секция JwtOptions не найдена в конфигурации");
+        var jwtOptions = jwtSection.Get<JwtOptions>() ?? throw new InvalidOperationException("Секция JwtOptions не найдена в конфигурации");
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey!));
 
@@ -38,6 +37,7 @@ public static class JwtAuthStartUp
             })
             .AddJwtBearer(options =>
             {
+                options.MapInboundClaims = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -48,7 +48,8 @@ public static class JwtAuthStartUp
                     IssuerSigningKey = key,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1),
-                    RoleClaimType = "role"
+                    RoleClaimType = "role",
+                    NameClaimType = ClaimTypes.NameIdentifier
                 };
 
                 options.Events = new JwtBearerEvents
@@ -60,7 +61,6 @@ public static class JwtAuthStartUp
                             return Task.CompletedTask;
                         }
 
-                        // берем userId из клейма "userId" или "sub"
                         var userId = identity.FindFirst("userId")?.Value
                                      ?? identity.FindFirst("sub")?.Value;
 

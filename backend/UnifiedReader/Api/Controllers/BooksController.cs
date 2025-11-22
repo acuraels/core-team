@@ -17,6 +17,7 @@ namespace Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/books")]
+[Authorize]
 public sealed class BooksController : ControllerBase
 {
     private readonly IBooksRepository _booksRepository;

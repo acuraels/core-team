@@ -27,7 +27,7 @@ public static class DalStartUp
         services.AddTransient<IBookingsRepository, BookingsRepository>();
         services.AddTransient<IDatabaseMigration, BooksCreateTablesMigration>();
         services.AddTransient<IDatabaseMigration, EventsAlterTablesMigration>();
-
+        services.AddTransient<IDatabaseMigration, AdminCreateTableMigration>();
         
         return services;
     }

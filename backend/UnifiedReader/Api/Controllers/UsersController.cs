@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Security.Claims;
 using Api.Controllers.Models.Request;
 using Api.Controllers.Models.Response;
 using Api.Mapping.Response;
@@ -129,7 +130,6 @@ public sealed class UsersController : ControllerBase
     /// </summary>
     [HttpPost("create")]
     [ProducesResponseType(201)]
-    [AllowAnonymous]
     public async Task<ActionResult<UserResponse>> Create([FromBody] CreateUserRequest request)
     {
         var validationResult = await _createValidator.ValidateAsync(request);
@@ -138,6 +138,41 @@ public sealed class UsersController : ControllerBase
         {
             ModelState.AddErrors(validationResult);
             return ValidationProblem(ModelState);
+        }
+
+        var currentRoleClaim = User.FindFirst(ClaimTypes.Role)?.Value
+                               ?? User.FindFirst("role")?.Value;
+
+        if (string.IsNullOrWhiteSpace(currentRoleClaim))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, "Пользователь не авторизован или роль не определена");
+        }
+
+        if (!Enum.TryParse<UserRole>(currentRoleClaim, true, out var currentUserRole))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, "Некорректная роль текущего пользователя");
+        }
+
+        var requestedRole = request.Role;
+        if (currentUserRole is UserRole.Admin)
+        {
+            if (requestedRole is not UserRole.Reader && requestedRole is not UserRole.Librarian)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    "Администратор может создавать только пользователей с ролями Reader и Librarian");
+            }
+        }
+        else if (currentUserRole == UserRole.Librarian)
+        {
+            if (requestedRole != UserRole.Reader)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    "Библиотекарь может создавать только пользователей с ролью Reader");
+            }
+        }
+        else
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, "Недостаточно прав для создания пользователей");
         }
 
         var user = await _userCreationService.CreateAsync(
