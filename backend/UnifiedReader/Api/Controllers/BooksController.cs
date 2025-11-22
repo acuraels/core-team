@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Api.Controllers.Models.Request;
 using Api.Controllers.Models.Response;
