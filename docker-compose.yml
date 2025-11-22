@@ -52,7 +52,7 @@ services:
       - MinioOptions__BucketName=book-images
       - MinioOptions__UseSsl=false
     ports:
-      - "8004:8080"
+      - "8000:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -74,7 +74,7 @@ services:
       context: frontend
       dockerfile: Dockerfile
     ports:
-      - "8002:5173"
+      - "5173:5173"
     depends_on:
       - backend
       - ai
