@@ -2,6 +2,7 @@ using Api.Validation.User;
 using Dal;
 using InfraLib;
 using InfraLib.Auth.JWT;
+using InfraLib.Minio;
 using InfraLib.Swagger;
 using Logic;
 
@@ -27,23 +28,25 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddSwaggerDocumentation();
-        services.AddJwtAuth(Configuration);
         services.AddAuthorization();
         services.AddControllers();
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowReactApp", policy =>
-            {
-                policy.WithOrigins("http://localhost:5173")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
-            });
-        });
+        // services.AddCors(options =>
+        // {
+        //     options.AddPolicy("AllowReactApp", policy =>
+        //     {
+        //         policy.WithOrigins("http://localhost:5173")
+        //             .AllowAnyHeader()
+        //             .AllowAnyMethod()
+        //             .AllowCredentials();
+        //     });
+        // });
+        
         services.AddInfrastructure();
+        services.AddMinioStorage(Configuration);
         services.AddDal();
         services.AddLogic();
         services.AddUsers();
+        services.AddJwtAuth(Configuration);
     }
 
     /// <summary>
@@ -58,7 +61,7 @@ public class Startup
         }
 
         app.UseRouting();
-        app.UseCors("AllowReactApp");
+        //app.UseCors("AllowReactApp");
         app.UseAuthentication();
         app.UseAuthorization();
 

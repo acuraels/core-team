@@ -11,7 +11,7 @@ internal static class UserMap
     /// <summary>
     /// Преобразование доменной модели пользователя в response
     /// </summary>
-    internal static UserResponse MapToResponse(User user)
+    internal static UserResponse MapToUserResponse(User user)
     {
         return new UserResponse
         {

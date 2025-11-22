@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using InfraLib.Auth.JWT.interfaces;
 using InfraLib.Validation.Options;
@@ -29,20 +30,48 @@ public static class JwtAuthStartUp
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey!));
 
         services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
+                options.MapInboundClaims = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = !string.IsNullOrWhiteSpace(jwtOptions.Issuer),
+                    ValidateIssuer = true,
                     ValidIssuer = jwtOptions.Issuer,
-                    ValidateAudience = !string.IsNullOrWhiteSpace(jwtOptions.Audience),
+                    ValidateAudience = true,
                     ValidAudience = jwtOptions.Audience,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = key,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromMinutes(1),
-                    RoleClaimType = "role"
+                    RoleClaimType = "role",
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        if (context.Principal?.Identity is not ClaimsIdentity identity)
+                        {
+                            return Task.CompletedTask;
+                        }
+
+                        var userId = identity.FindFirst("userId")?.Value
+                                     ?? identity.FindFirst("sub")?.Value;
+
+                        if (!string.IsNullOrWhiteSpace(userId) &&
+                            identity.FindFirst(ClaimTypes.NameIdentifier) == null)
+                        {
+                            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

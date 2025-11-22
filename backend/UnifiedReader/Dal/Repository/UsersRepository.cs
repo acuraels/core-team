@@ -19,7 +19,10 @@ public sealed class UsersRepository : IUsersRepository
     public async Task<User?> GetByLoginAsync(string login)
     {
         const string sql = "SELECT * FROM users WHERE login = @Login LIMIT 1;";
-        if (_connection.State != ConnectionState.Open) _connection.Open();
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
 
         return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Login = login });
     }
@@ -27,7 +30,10 @@ public sealed class UsersRepository : IUsersRepository
     public async Task<User?> GetAsync(Guid id)
     {
         const string sql = "SELECT * FROM users WHERE id = @Id LIMIT 1;";
-        if (_connection.State != ConnectionState.Open) _connection.Open();
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
 
         return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
     }
@@ -35,7 +41,10 @@ public sealed class UsersRepository : IUsersRepository
     public async Task<IReadOnlyCollection<User>> GetAllAsync()
     {
         const string sql = "SELECT * FROM users;";
-        if (_connection.State != ConnectionState.Open) _connection.Open();
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
 
         var result = await _connection.QueryAsync<User>(sql);
         return result.ToList();
@@ -44,7 +53,10 @@ public sealed class UsersRepository : IUsersRepository
     public async Task<bool> AnyLibrarianExistsAsync()
     {
         const string sql = "SELECT EXISTS(SELECT 1 FROM users WHERE role = 2 LIMIT 1);";
-        if (_connection.State != ConnectionState.Open) _connection.Open();
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
 
         return await _connection.QuerySingleAsync<bool>(sql);
     }

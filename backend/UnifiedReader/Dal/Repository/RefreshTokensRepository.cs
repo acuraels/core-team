@@ -16,17 +16,12 @@ public sealed class RefreshTokensRepository : IRefreshTokensRepository
         _connection = connection;
     }
 
-    private void EnsureOpen()
+    public async Task AddAsync(RefreshToken token, CancellationToken cancellationToken)
     {
-        if (_connection.State != ConnectionState.Open)
+        if (_connection.State is not ConnectionState.Open)
         {
             _connection.Open();
         }
-    }
-
-    public async Task AddAsync(RefreshToken token, CancellationToken cancellationToken)
-    {
-        EnsureOpen();
 
         const string sql = @"
 INSERT INTO refresh_tokens (id, user_id, token, expires_at)
@@ -41,7 +36,10 @@ VALUES (@Id, @UserId, @Token, @ExpiresAt);
 
     public async Task<RefreshToken?> GetAsync(string token, CancellationToken cancellationToken)
     {
-        EnsureOpen();
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
 
         const string sql = @"
 SELECT
