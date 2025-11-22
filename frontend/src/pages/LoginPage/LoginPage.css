@@ -1,0 +1,36 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+.login-form-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-form-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-form-button {
+    font-family: "Golos Text", sans-serif;
+    font-size: 16px;
+    padding: 10px;
+    background-color: #077037;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-form-button:hover {
+    background-color: #07542A;
+}
+
+.login-form-button:active {
+    background-color: #04361B;
+}
