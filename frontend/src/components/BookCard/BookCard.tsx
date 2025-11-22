@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import './BookCard.css';
 
 interface Book {
@@ -13,12 +14,20 @@ interface BookCardProps {
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/book/${book.id}`, { state: { book } });
+  };
+
   return (
-    <div className="book-card">
+    <div className="book-card" onClick={handleClick}>
       {book.coverUrl ? (
         <img src={book.coverUrl} alt={book.name} className="book-cover" />
       ) : (
-        <div className="book-cover-placeholder">Нет обложки</div>
+        <div className="book-cover-placeholder">
+            {book.name[0]}{book.name.split(' ')[1]?.[0] || ''}
+        </div>
       )}
       
       <div className="book-info">

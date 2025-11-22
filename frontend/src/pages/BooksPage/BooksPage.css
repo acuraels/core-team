@@ -1,6 +1,24 @@
 .books-container {
     display: flex;
     flex-direction: column;
+    min-height: 65vh; 
+    position: relative;
+}
+
+.empty-books-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.empty-books-text {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+    max-width: 600px;
+    line-height: 1.5;
 }
 
 .books-list {
@@ -9,13 +27,6 @@
     grid-template-columns: repeat(5, 1fr);
     justify-content: center;
     gap: 15px;
-}
-
-.empty-books-list {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #666;
-  margin-top: 100px;
 }
 
 @media (max-width: 1400px) {
@@ -27,12 +38,14 @@
 @media (max-width: 1100px) {
   .books-list {
     grid-template-columns: repeat(3, 1fr);
+    margin: 60px 40px;
   }
 }
 
 @media (max-width: 800px) {
   .books-list {
     grid-template-columns: repeat(2, 1fr);
+    margin: 40px 40px;
   }
 }
 

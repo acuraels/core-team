@@ -1,9 +1,8 @@
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-
-import "./BooksPage.css";
 import { useEffect, useState } from 'react';
 import BookCard from '../../components/BookCard/BookCard';
+import "./BooksPage.css";
 
 interface Book {
   id: string | number;
@@ -14,9 +13,10 @@ interface Book {
 }
 
 const BooksPage = () => {
-    const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchBooks = async () => {
       try {
         const mockBooks: Book[] = [
@@ -87,35 +87,39 @@ const BooksPage = () => {
 
         setTimeout(() => {
           setBooks(mockBooks);
+          setIsLoading(true);
         }, 50);
       } catch (err) {
         console.error("Ошибка при загрузке списка книг:", err);
+        setIsLoading(false);
       }
     };
 
     fetchBooks();
   }, []);
 
-    return (
-        <>
-            <Header />
-            <main className='books-container'>
-                <div className='books-list'>
-                    {books.length === 0 ? (
-                        <p className='empty-books-list'>К сожалению, в данный момент ни одной книги нет в наличии</p>
-                    ) : (
-                        books.map((book) => (
-                            <BookCard
-                                key={book.id}
-                                book={book}
-                            />
-                        ))
-                    )}
-                </div>
-            </main>
-            <Footer />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <main className='books-container'>
+        {books.length === 0 && !isLoading ? (
+          <div className='empty-books-wrapper'>
+            <p className='empty-books-text'>К сожалению, в данный момент ни одной книги нет в наличии</p>
+          </div>
+        ) : (
+          <div className='books-list'>
+            {books.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+      <Footer />
+    </>
+  );
 };
 
 export default BooksPage;
