@@ -1,4 +1,4 @@
-from src.rag.book_searcher import BookSearcher
+from src.book_searcher import BookSearcher
 
 
 class RecommendationService:
@@ -47,4 +47,3 @@ class RecommendationService:
         )
 
         return candidates
-

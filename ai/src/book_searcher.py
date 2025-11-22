@@ -29,15 +29,12 @@ class BookSearcher:
         :return: Список словарей с метаданными найденных книг.
         """
 
-
         query_vector = self.model.encode([user_query]).tolist()
 
         results = self.collection.query(
             query_embeddings=query_vector,
             n_results=limit,
         )
-
-
 
         found_books = []
         if results.get('metadatas') and results['metadatas'][0]:
