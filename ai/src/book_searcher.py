@@ -1,12 +1,14 @@
-from logging import getLogger
-from typing import Any
+import logging
+from typing import Mapping
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
 from src.constants import ALL_BOOKS_DB as FAKE_DB_BOOKS
+from src.pydantic_models import Book
 
-logger = getLogger(__name__)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class BookSearcher:
@@ -24,7 +26,7 @@ class BookSearcher:
         self._fill_vector_db()
         logger.info("Инициализация Book Searcher завершена.")
 
-    def search(self, user_query: str, exclude_ids: list[int], limit: int = 5) -> list[dict[str, Any]]:
+    def search(self, user_query: str, exclude_ids: list[int], limit: int = 5) -> list[Book]:
         """
         :param user_query: Строка, описывающая интересы пользователя (вектор запроса).
         :param exclude_ids: ID книг для исключения из поиска (чтобы не выдавались прочитанные книги).
@@ -45,11 +47,21 @@ class BookSearcher:
                 if meta['id'] in exclude_ids:
                     logger.info(f'Исключена из рекомендации книга {meta['id']}')
                     continue
-                found_books.append(meta)
+                found_books.append(self._convert_metadata_to_book(meta))
         else:
             logger.error("ОШИБКА - не удалось найти книги")
 
         return found_books
+
+    @staticmethod
+    def _convert_metadata_to_book(metadata: Mapping) -> Book:
+        return Book(
+            isbn=int(metadata['id']),
+            title=metadata['title'],
+            author=metadata['author'],
+            description=metadata['description'],
+            image_url=metadata['image_url']
+        )
 
     def _fill_vector_db(self):
         ids = []
@@ -59,20 +71,17 @@ class BookSearcher:
         logger.info("Начинаю векторизацию...")
 
         for book in FAKE_DB_BOOKS:
-            text_to_vectorize = (
-                f"Заголовок: {book['title']}. "
-                f"Автор: {book['author']}. "
-                f"Описание: {book['description']}"
-            )
+            text_to_vectorize = f"{book.author} : {book.description}"
 
-            ids.append(str(book['id']))
+            ids.append(str(book.isbn))
             documents.append(text_to_vectorize)
 
             metadatas.append({
-                "id": book['id'],
-                "title": book['title'],
-                "author": book['author'],
-                "description": book['description']
+                "id": book.isbn,
+                "title": book.title,
+                "author": book.author,
+                "description": book.description,
+                "image_url": book.image_url
             })
 
         embeddings = self.model.encode(documents).tolist()

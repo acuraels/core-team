@@ -6,7 +6,8 @@ from fastapi import FastAPI
 
 from src.api import router as main_router
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(format="%(levelname)s: %(message)s")
+logging.getLogger().setLevel(logging.INFO)
 load_dotenv()
 app = FastAPI(title="Book Recommender AI")
 
