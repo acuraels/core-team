@@ -23,6 +23,24 @@ public static class SwaggerStartUp
                 Title = "UnifiedReader API",
                 Version = "v1"
             });
+
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Description = "Введите JWT токен в формате: Bearer {token}",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT"
+            });
+
+            options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Bearer"),
+                    new List<string>()
+                }
+            });
         });
 
         return services;

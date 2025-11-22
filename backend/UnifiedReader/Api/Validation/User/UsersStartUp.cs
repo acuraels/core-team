@@ -1,5 +1,6 @@
 using Api.Controllers.Models.Request;
 using Dal.Repository;
+using Dal.Tokens.interfaces;
 using Dal.Users;
 using Dal.Users.Migrations;
 using FluentValidation;
@@ -21,7 +22,9 @@ public static class UsersStartUp
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
         services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
         services.AddTransient<IUsersRepository, UsersRepository>();
+        services.AddScoped<IRefreshTokensRepository, RefreshTokensRepository>();
         services.AddTransient<IDatabaseMigration, UsersCreateTableMigration>();
+        services.AddTransient<IDatabaseMigration, RefreshTokensCreateTableMigration>();
 
         return services;
     }

@@ -10,9 +10,10 @@ import axiosInstance from "../../utils/axiosInstance";
 import "./LoginPage.css";
 
 type AuthResponse = {
-    AccessToken: string;
-    UserId: string;
-    Role: "Reader" | "Librarian";
+    accessToken: string;
+    refreshToken: string;
+    userId: string;
+    role: number; // 1 = Reader, 2 = Librarian
 };
 
 const LoginPage = () => {
@@ -37,28 +38,41 @@ const LoginPage = () => {
                 password: password
             });
 
-            // сохраняем то, что пришло с бэка
-            localStorage.setItem("access_token", data.AccessToken);
-            localStorage.setItem("user_id", data.UserId);
-            // храним роль в том же виде, что и на бэке: "Reader" или "Librarian"
-            localStorage.setItem("user_role", data.Role);
+            localStorage.setItem("access_token", data.accessToken);
+            localStorage.setItem("refresh_token", data.refreshToken);
+            localStorage.setItem("user_id", data.userId);
 
-            // навигация по роли, БЕЗ выбора роли на форме
-            if (data.Role === "Reader") {
+            let roleString = "";
+
+            if (data.role === 1) {
+                roleString = "Reader";
+            }
+            else if (data.role === 2) {
+                roleString = "Librarian";
+            }
+
+            localStorage.setItem("user_role", roleString);
+
+            if (data.role === 1)
+            {
                 navigate("/reader-profile");
             }
-            else if (data.Role === "Librarian") {
+            else if (data.role === 2)
+            {
                 navigate("/librarian-profile");
             }
-            else {
+            else
+            {
                 navigate("/unauthorized");
             }
         }
         catch (err: any) {
-            if (err.response?.status === 401) {
+            if (err.response?.status === 401)
+            {
                 setError("Неверный логин или пароль");
             }
-            else {
+            else
+            {
                 setError("Ошибка при входе. Попробуйте позже");
             }
         }

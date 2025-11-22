@@ -1,6 +1,6 @@
+using Dapper;
 using System.Data;
 using Dal.Users;
-using Dapper;
 
 namespace Dal.Repository;
 
@@ -9,9 +9,6 @@ namespace Dal.Repository;
 /// </summary>
 public sealed class UsersRepository : IUsersRepository
 {
-    /// <summary>
-    /// Соединение
-    /// </summary>
     private readonly IDbConnection _connection;
 
     public UsersRepository(IDbConnection connection)
@@ -19,58 +16,37 @@ public sealed class UsersRepository : IUsersRepository
         _connection = connection;
     }
 
-    /// <inheritdoc />
-    public async Task<User?> GetAsync(Guid id)
+    public async Task<User?> GetByLoginAsync(string login)
     {
-        const string sql = @"
-SELECT 
-    id,
-    name,
-    surname,
-    identifier,
-    login,
-    password,
-    role,
-    created_at
-FROM users
-WHERE id = @Id;
-";
+        const string sql = "SELECT * FROM users WHERE login = @Login LIMIT 1;";
+        if (_connection.State != ConnectionState.Open) _connection.Open();
 
-        if (_connection.State is not ConnectionState.Open)
-        {
-            _connection.Open();
-        }
-
-        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new
-        {
-            Id = id
-        });
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Login = login });
     }
 
-    /// <inheritdoc />
+    public async Task<User?> GetAsync(Guid id)
+    {
+        const string sql = "SELECT * FROM users WHERE id = @Id LIMIT 1;";
+        if (_connection.State != ConnectionState.Open) _connection.Open();
+
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new { Id = id });
+    }
+
     public async Task<IReadOnlyCollection<User>> GetAllAsync()
     {
-        const string sql = @"
-SELECT 
-    id,
-    name,
-    surname,
-    identifier,
-    login,
-    password,
-    role,
-    created_at
-FROM users;
-";
-
-        if (_connection.State is not ConnectionState.Open)
-        {
-            _connection.Open();
-        }
+        const string sql = "SELECT * FROM users;";
+        if (_connection.State != ConnectionState.Open) _connection.Open();
 
         var result = await _connection.QueryAsync<User>(sql);
+        return result.ToList();
+    }
 
-        return result.ToArray();
+    public async Task<bool> AnyLibrarianExistsAsync()
+    {
+        const string sql = "SELECT EXISTS(SELECT 1 FROM users WHERE role = 2 LIMIT 1);";
+        if (_connection.State != ConnectionState.Open) _connection.Open();
+
+        return await _connection.QuerySingleAsync<bool>(sql);
     }
 
     /// <inheritdoc />
@@ -156,33 +132,5 @@ WHERE id = @Id;
         });
 
         return rows > 0;
-    }
-
-    /// <inheritdoc />
-    public async Task<User?> GetByLoginAsync(string login)
-    {
-        const string sql = @"
-SELECT 
-    id,
-    name,
-    surname,
-    identifier,
-    login,
-    password,
-    role,
-    created_at
-FROM users
-WHERE login = @Login;
-";
-
-        if (_connection.State != ConnectionState.Open)
-        {
-            _connection.Open();
-        }
-
-        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new
-        {
-            Login = login
-        });
     }
 }

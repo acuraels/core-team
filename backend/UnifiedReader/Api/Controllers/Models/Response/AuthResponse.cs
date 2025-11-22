@@ -13,6 +13,11 @@ public sealed class AuthResponse
     public string AccessToken { get; init; } = string.Empty;
 
     /// <summary>
+    /// Refresh-токен
+    /// </summary>
+    public string RefreshToken { get; init; } = string.Empty;
+
+    /// <summary>
     /// Идентификатор пользователя
     /// </summary>
     public Guid UserId { get; init; }

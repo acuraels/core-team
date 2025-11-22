@@ -1,6 +1,8 @@
 using Api.Controllers.Models.Request;
 using Api.Controllers.Models.Response;
 using Api.Validation.Extensions;
+using Dal.Tokens;
+using Dal.Tokens.interfaces;
 using Dal.Users;
 using FluentValidation;
 using InfraLib.Auth.JWT.interfaces;
@@ -31,22 +33,29 @@ public sealed class AuthController : ControllerBase
     /// Фабрика JWT токенов
     /// </summary>
     private readonly IJwtTokenFactory _tokenFactory;
+    
+    /// <summary>
+    /// refresh token
+    /// </summary>
+    private readonly IRefreshTokensRepository _refreshTokensRepository;
 
     public AuthController(
         IUsersRepository usersRepository,
         IValidator<LoginRequest> loginValidator,
-        IJwtTokenFactory tokenFactory)
+        IJwtTokenFactory tokenFactory,
+        IRefreshTokensRepository refreshTokensRepository)
     {
         _usersRepository = usersRepository;
         _loginValidator = loginValidator;
         _tokenFactory = tokenFactory;
+        _refreshTokensRepository = refreshTokensRepository;
     }
 
     /// <summary>
     /// Логин пользователя
     /// </summary>
     [HttpPost("login")]
-    [ProducesResponseType(200)]
+    [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
     {
         var validationResult = await _loginValidator.ValidateAsync(request);
@@ -64,11 +73,81 @@ public sealed class AuthController : ControllerBase
             return Unauthorized("Неверный логин или пароль");
         }
 
-        var token = _tokenFactory.Create(user.Id, user.Role);
+        var now = DateTime.UtcNow;
+        var accessToken = _tokenFactory.Create(user.Id, user.Role);
+        var refreshTokenValue = Guid.NewGuid().ToString("N");
+
+        var refreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = refreshTokenValue,
+            ExpiresAt = now.AddDays(30)
+        };
+
+        await _refreshTokensRepository.AddAsync(refreshToken, HttpContext.RequestAborted);
 
         var response = new AuthResponse
         {
-            AccessToken = token,
+            AccessToken = accessToken,
+            RefreshToken = refreshTokenValue,
+            UserId = user.Id,
+            Role = user.Role
+        };
+
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Обновление access токена по refresh токену
+    /// </summary>
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AuthResponse>> Refresh([FromBody] RefreshRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.RefreshToken))
+        {
+            return BadRequest("Refresh токен не должен быть пустым");
+        }
+
+        var stored = await _refreshTokensRepository.GetAsync(request.RefreshToken, HttpContext.RequestAborted);
+
+        if (stored is null)
+        {
+            return Unauthorized("Refresh токен недействителен");
+        }
+
+        if (stored.ExpiresAt <= DateTime.UtcNow)
+        {
+            return Unauthorized("Refresh токен просрочен");
+        }
+
+        var user = await _usersRepository.GetAsync(stored.UserId);
+
+        if (user is null)
+        {
+            return Unauthorized("Пользователь для данного токена не найден");
+        }
+
+        var now = DateTime.UtcNow;
+
+        var newAccessToken = _tokenFactory.Create(user.Id, user.Role);
+        var newRefreshTokenValue = Guid.NewGuid().ToString("N");
+
+        var newRefreshToken = new RefreshToken
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+            Token = newRefreshTokenValue,
+            ExpiresAt = now.AddDays(30)
+        };
+
+        await _refreshTokensRepository.AddAsync(newRefreshToken, HttpContext.RequestAborted);
+
+        var response = new AuthResponse
+        {
+            AccessToken = newAccessToken,
+            RefreshToken = newRefreshTokenValue,
             UserId = user.Id,
             Role = user.Role
         };

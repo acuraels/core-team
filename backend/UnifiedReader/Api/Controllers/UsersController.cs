@@ -124,6 +124,9 @@ public sealed class UsersController : ControllerBase
     /// <summary>
     /// Создание пользователя
     /// </summary>
+    /// <summary>
+    /// Создание пользователя
+    /// </summary>
     [HttpPost("create")]
     [ProducesResponseType(201)]
     [AllowAnonymous]
@@ -135,6 +138,11 @@ public sealed class UsersController : ControllerBase
         {
             ModelState.AddErrors(validationResult);
             return ValidationProblem(ModelState);
+        }
+
+        if (request.Role != UserRole.Reader)
+        {
+            return Forbid("Библиотекарь может создавать только читателей");
         }
 
         var user = await _userCreationService.CreateAsync(
