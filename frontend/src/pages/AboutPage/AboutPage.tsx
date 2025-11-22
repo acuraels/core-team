@@ -1,17 +1,15 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { QrCode, BookOpen, Calendar, Sparkles, Users, ArrowRight } from 'lucide-react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import "./AboutPage.css";
 
 const AboutPage = () => {
-    const navigate = useNavigate();
-
     return (
         <>
             <Header />
             <main className='main-container about-page'>
-                
+
                 {/* HERO SECTION */}
                 <section className='hero-section'>
                     <div className='hero-content'>
@@ -20,23 +18,23 @@ const AboutPage = () => {
                             <span className='highlight'>Больше, чем просто книги</span>
                         </h1>
                         <p className='hero-subtitle'>
-                            Единый цифровой читательский билет, умный поиск с ИИ 
+                            Единый цифровой читательский билет, умный поиск с ИИ
                             и центр культурной жизни Екатеринбурга в вашем смартфоне.
                         </p>
                         <div className='hero-buttons'>
-                            <button className='btn-primary' onClick={() => navigate('/login')}>
+                            <Link to="/login" className='btn-primary'>
                                 Войти в личный кабинет
-                            </button>
-                            <button className='btn-secondary' onClick={() => navigate('/books')}>
+                            </Link>
+                            <Link to="/books" className='btn-secondary'>
                                 Перейти в каталог
-                            </button>
+                            </Link>
                         </div>
                     </div>
                     <div className='hero-visual'>
                         {/* Абстрактная визуализация цифрового билета */}
                         <div className='digital-card-mockup'>
                             <QrCode size={120} color="#077037" strokeWidth={1} />
-                            <div className='mockup-text'>Library Pass</div>
+                            <div className='mockup-text'>Читательский билет</div>
                         </div>
                     </div>
                 </section>
@@ -73,8 +71,8 @@ const AboutPage = () => {
                     <div className='vision-content'>
                         <h2 className='section-title light'>Комьюнити-хаб</h2>
                         <p className='vision-text'>
-                            Мы трансформируем классическую библиотеку в пространство для общения, 
-                            работы и творчества. Библиотека №14 — это место, где технологии 
+                            Мы трансформируем классическую библиотеку в пространство для общения,
+                            работы и творчества. Библиотека №14 — это место, где технологии
                             встречаются с культурой.
                         </p>
                         <ul className='vision-list'>
@@ -82,9 +80,9 @@ const AboutPage = () => {
                             <li><Users size={20} /> Дискуссионные клубы</li>
                             <li><Users size={20} /> Творческие мастерские</li>
                         </ul>
-                        <button className='btn-outline' onClick={() => navigate('/events')}>
-                            Смотреть афишу <ArrowRight size={18} style={{marginLeft: 8}}/>
-                        </button>
+                        <Link to="/events" className='btn-outline'>
+                            Смотреть афишу <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                        </Link>
                     </div>
                 </section>
 

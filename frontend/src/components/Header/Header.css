@@ -305,6 +305,19 @@
     .header-right {
         gap: 14px;
     }
+
+    .burger-btn {
+        display: flex;
+    }
+
+    .header-link,
+    .profile-block {
+        display: none;
+    }
+
+    .tg-login-btn {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
@@ -314,15 +327,6 @@
 
     .header-right {
         gap: 10px;
-    }
-
-    .header-link,
-    .profile-block {
-        display: none;
-    }
-
-    .burger-btn {
-        display: flex;
     }
 
     .tg-icon {

@@ -1,7 +1,8 @@
 .about-page {
     display: flex;
     flex-direction: column;
-    gap: 80px; /* Отступы между секциями */
+    gap: 80px;
+    /* Отступы между секциями */
     padding-bottom: 80px;
 }
 
@@ -10,8 +11,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 60px 120px;
-    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); /* Легкий зеленый градиент */
+    padding: 40px 40px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    /* Легкий зеленый градиент */
     border-radius: 0 0 40px 40px;
 }
 
@@ -28,7 +30,8 @@
 }
 
 .hero-title .highlight {
-    color: #077037; /* Брендовый цвет */
+    color: #077037;
+    /* Брендовый цвет */
 }
 
 .hero-subtitle {
@@ -41,6 +44,8 @@
 .hero-buttons {
     display: flex;
     gap: 16px;
+    width: 80vw;
+    margin: auto;
 }
 
 .btn-primary {
@@ -107,6 +112,7 @@
     font-size: 1.5rem;
     color: #111827;
     letter-spacing: 2px;
+    text-align: center;
     text-transform: uppercase;
 }
 
@@ -138,16 +144,18 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    cursor: pointer;
 }
 
 .feature-card:hover {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .icon-bg {
     width: 60px;
     height: 60px;
-    background-color: #ecfdf5; /* Очень светлый зеленый */
+    background-color: #ecfdf5;
+    /* Очень светлый зеленый */
     color: #077037;
     border-radius: 16px;
     display: flex;
@@ -238,30 +246,36 @@
     .features-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .hero-section {
         flex-direction: column;
         text-align: center;
         gap: 60px;
     }
+
     .hero-content {
         margin: 0 auto;
     }
-    .hero-buttons {
-        justify-content: center;
+
+    .digital-card-mockup {
+        width: 200px;
+        height: 300px;
     }
 }
 
 @media (max-width: 768px) {
-    .hero-section, .features-section, .vision-section {
+
+    .hero-section,
+    .features-section,
+    .vision-section {
         padding: 40px 20px;
         margin: 0;
-        border-radius: 0;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .features-grid {
         grid-template-columns: 1fr;
     }
@@ -269,7 +283,7 @@
     .hero-buttons {
         flex-direction: column;
     }
-    
+
     .vision-section {
         margin: 20px;
         padding: 40px 20px;
