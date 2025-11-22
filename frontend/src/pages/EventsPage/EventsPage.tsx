@@ -22,7 +22,6 @@ const EventsPage = () => {
                         date: "24 ноября",
                         time: "18:00",
                         location: "Читальный зал №1",
-                        isFree: true,
                         coverUrl: '' // Оставим пустым для проверки плейсхолдера
                     },
                     {
@@ -32,7 +31,6 @@ const EventsPage = () => {
                         date: "26 ноября",
                         time: "14:00",
                         location: "Мастерская",
-                        isFree: false,
                         coverUrl: '' 
                     },
                     {
@@ -42,7 +40,6 @@ const EventsPage = () => {
                         date: "1 декабря",
                         time: "19:00",
                         location: "Конференц-зал",
-                        isFree: true,
                         coverUrl: '' 
                     },
                     {
@@ -52,7 +49,6 @@ const EventsPage = () => {
                         date: "3 декабря",
                         time: "11:00",
                         location: "Детская зона",
-                        isFree: true,
                         coverUrl: '' 
                     }
                 ];

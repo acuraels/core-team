@@ -11,7 +11,6 @@ export interface LibraryEvent {
   time: string;
   location: string;
   coverUrl?: string;
-  isFree?: boolean;
 }
 
 interface EventCardProps {
@@ -36,7 +35,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             {event.title[0]}
           </div>
         )}
-        {event.isFree && <span className="event-badge">Бесплатно</span>}
       </div>
 
       <div className="event-info">
