@@ -6,10 +6,10 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY ["Api/Api.csproj", "Api/"]
-COPY ["Logic/Logic.csproj", "Logic/"]
-COPY ["Dal/Dal.csproj", "Dal/"]
-COPY ["../Libs/InfraLib/InfraLib.csproj", "Libs/InfraLib/"]
+COPY ["Api.csproj", "Api/"]
+COPY ["../Logic/Logic.csproj", "Logic/"]
+COPY ["../Dal/Dal.csproj", "Dal/"]
+COPY ["../../Libs/InfraLib/InfraLib.csproj", "Libs/InfraLib/"]
 
 RUN dotnet restore "Api/Api.csproj"
 

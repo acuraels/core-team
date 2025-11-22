@@ -19,7 +19,7 @@ services:
 
   api:
     build:
-      context: ./Api
+      context: backend/UnifiedReader/Api
       dockerfile: Dockerfile
     container_name: unified-reader-api
     restart: unless-stopped
