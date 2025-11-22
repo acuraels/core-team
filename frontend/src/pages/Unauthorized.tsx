@@ -1,38 +1,35 @@
 import { Link } from "react-router-dom";
 
-const Unauthorized = () => {
+const NotFound = () => {
     return (
         <div
-            className="unauthorized"
+            className="notfound"
             style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
-                textAlign: "center",
-                gap: "15px",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+                textAlign: 'center',
+                gap: '15px',
+                backgroundColor: '#077037'
             }}
         >
             <h1
                 style={{
-                    color: "red",
+                    color: 'red'
                 }}
-            >
-                ERROR 401
-            </h1>
+            >ERROR 401</h1>
             <h3
                 style={{
-                    color: "#F3C041",
+                    color: 'white'
                 }}
-            >
-                Доступ запрещён! <br /> Вы не авторизованы для просмотра этой страницы.
-            </h3>
-            <Link to="/login" className="tg-login-btn">
-                Вернуться ко входу
+            >Доступ запрещён! <br /> Вы не авторизованы для просмотра этой страницы.</h3>
+            <Link to="/about" className="tg-login-btn">
+                Вернуться на главную
             </Link>
         </div>
     );
 };
 
-export default Unauthorized;
+export default NotFound;

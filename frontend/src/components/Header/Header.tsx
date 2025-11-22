@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
+
+type UserRole = "Reader" | "Librarian" | null;
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const [isMobile, setIsMobile] = useState<boolean>(false);
 
+    const [authPath, setAuthPath] = useState<string>("/login");
+    const [authLabel, setAuthLabel] = useState<string>("Войти");
+
+    const location = useLocation();
+
+    // трекаем ширину экрана (мобилка / десктоп)
     useEffect(() => {
         if (typeof window === "undefined") return;
 
@@ -17,6 +25,25 @@ const Header = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    // обновляем состояние кнопки при смене роутов / логине / логауте
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const token = localStorage.getItem("access_token");
+        const role = localStorage.getItem("user_role") as UserRole;
+
+        if (token && role === "Reader") {
+            setAuthPath("/reader-profile");
+            setAuthLabel("Профиль");
+        } else if (token && role === "Librarian") {
+            setAuthPath("/librarian-profile");
+            setAuthLabel("Профиль");
+        } else {
+            setAuthPath("/login");
+            setAuthLabel("Войти");
+        }
+    }, [location.pathname]);
 
     const closeMenu = () => setMenuOpen(false);
     const toggleMenu = () => setMenuOpen((prev) => !prev);
@@ -42,10 +69,10 @@ const Header = () => {
                             Мероприятия
                         </Link>
 
-                        {/* на десктопе кнопка "Войти" в хэдере */}
+                        {/* на десктопе — динамическая кнопка (Войти / Профиль) */}
                         {!isMobile && (
-                            <Link to="/login" className="tg-login-btn">
-                                Войти
+                            <Link to={authPath} className="tg-login-btn">
+                                {authLabel}
                             </Link>
                         )}
 
@@ -90,14 +117,14 @@ const Header = () => {
                     Мероприятия
                 </Link>
 
-                {/* на мобиле "Войти" только внутри меню, с тем же стилем */}
+                {/* на мобиле — та же динамическая кнопка, другой стиль */}
                 {isMobile && (
                     <Link
-                        to="/login"
+                        to={authPath}
                         className="tg-login-btn-phone"
                         onClick={closeMenu}
                     >
-                        Войти
+                        {authLabel}
                     </Link>
                 )}
             </div>

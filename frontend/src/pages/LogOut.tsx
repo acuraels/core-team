@@ -9,8 +9,9 @@ function Logout() {
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('user_role');
         localStorage.removeItem('user_id');
+        localStorage.removeItem('reader_code');
 
-        navigate('/login');
+        navigate('/about');
     }, [navigate]);
 
     return null;

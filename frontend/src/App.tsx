@@ -5,10 +5,13 @@ import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 import NotFound from './pages/NotFound.tsx';
 
+import Unauthorized from './pages/Unauthorized.tsx';
+
 import AboutPage from './pages/AboutPage/AboutPage.tsx';
 import BooksPage from './pages/BooksPage/BooksPage.tsx';
 import EventsPage from './pages/EventsPage/EventsPage.tsx';
 import LoginPage from './pages/LoginPage/LoginPage.tsx';
+import Logout from './pages/LogOut.tsx';
 
 import ReaderProfile from './pages/ReaderProfile/ReaderProfile.tsx';
 import LibrarianProfile from './pages/LibrarianProfile/LibrarianProfile.tsx';
@@ -23,7 +26,7 @@ function App() {
           <Route path="/" element={<Navigate to="/about" />} />
           <Route path="*" element={<NotFound />} />
 
-
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/books" element={<BooksPage />} />
@@ -31,6 +34,7 @@ function App() {
           <Route path="/events" element={<EventsPage />} />
           <Route path="/events/:id" element={<EventDetailsPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/logout" element={<Logout />} />
 
 
 
