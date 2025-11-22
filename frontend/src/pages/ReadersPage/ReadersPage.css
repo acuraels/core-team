@@ -1,0 +1,272 @@
+.readers-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+}
+
+.readers-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* верхняя часть: заголовок + кнопка создания */
+
+.readers-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.readers-title {
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+}
+
+.readers-create-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background-color: #077037;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.readers-create-btn:hover {
+    background-color: #07542a;
+}
+
+.readers-create-btn:active {
+    background-color: #04361b;
+    transform: translateY(1px);
+}
+
+/* список читателей */
+
+.readers-list-section {
+    margin-top: 4px;
+}
+
+.readers-empty {
+    font-size: 14px;
+    color: #707070;
+}
+
+/* общая карточка списка */
+
+.readers-list-card {
+    background-color: #f3f4f6;
+    border-radius: 16px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.readers-list-header-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    padding: 2px 4px 6px;
+}
+
+.readers-list-header-title:last-child {
+    text-align: right;
+}
+
+/* сами элементы */
+
+.readers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reader-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+}
+
+.reader-item-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.reader-item-name {
+    font-family: "Golos Text", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* правая часть: статистика по книгам */
+
+.reader-item-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.reader-item-stat strong {
+    font-weight: 600;
+}
+
+.reader-item-separator {
+    opacity: 0.5;
+}
+
+/* МОДАЛКА СОЗДАНИЯ ЧИТАТЕЛЯ */
+
+.readers-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.readers-modal {
+    width: 100%;
+    max-width: 420px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    padding: 20px 22px 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+.readers-modal-title {
+    font-family: "Golos Text", sans-serif;
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.readers-modal-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.readers-modal-example {
+    font-family: "Golos Text", sans-serif;
+    font-weight: 500;
+    color: #111827;
+}
+
+.readers-modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.readers-modal-input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+
+.readers-modal-input:focus {
+    border-color: #077037;
+    box-shadow: 0 0 0 1px rgba(7, 112, 55, 0.12);
+}
+
+.readers-modal-error {
+    font-size: 12px;
+    color: #b91c1c;
+}
+
+.readers-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.readers-modal-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.readers-modal-btn--primary {
+    background-color: #077037;
+    color: #ffffff;
+}
+
+.readers-modal-btn--primary:hover {
+    background-color: #07542a;
+}
+
+.readers-modal-btn--primary:active {
+    background-color: #04361b;
+    transform: translateY(1px);
+}
+
+.readers-modal-btn--secondary {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.readers-modal-btn--secondary:hover {
+    background-color: #d1d5db;
+}
+
+.readers-modal-btn--secondary:active {
+    background-color: #9ca3af;
+    transform: translateY(1px);
+}
+
+/* адаптив под мобилу */
+
+@media (max-width: 768px) {
+    .readers-page {
+        padding: 16px 0 32px;
+    }
+
+    .readers-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .readers-list-header-row {
+        font-size: 11px;
+    }
+
+    .reader-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reader-item-right {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .readers-modal {
+        margin: 0 16px;
+    }
+}

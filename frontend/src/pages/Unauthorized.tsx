@@ -25,7 +25,12 @@ const NotFound = () => {
                     color: 'white'
                 }}
             >Доступ запрещён! <br /> Вы не авторизованы для просмотра этой страницы.</h3>
-            <Link to="/about" className="tg-login-btn">
+            <Link
+                style={{
+                    display: 'block',
+                }}
+
+                to="/about" className="tg-login-btn">
                 Вернуться на главную
             </Link>
         </div>

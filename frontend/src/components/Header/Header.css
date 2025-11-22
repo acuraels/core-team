@@ -64,6 +64,7 @@
     font-weight: 600;
     font-style: bold;
     line-height: 100%;
+    text-decoration: none;
 }
 
 .header-link:hover {
@@ -75,6 +76,12 @@
     opacity: 0.5;
 }
 
+/* активный пункт меню */
+.header-link--active {
+    text-decoration: underline;
+}
+
+/* кнопка Войти / Профиль */
 .tg-login-btn {
     font-family: "Golos Text", sans-serif;
     display: flex;
@@ -279,6 +286,11 @@
 
 .mobile-menu-link:hover {
     opacity: 0.8;
+}
+
+/* активный пункт в меню на мобиле */
+.mobile-menu-link--active {
+    text-decoration: underline;
 }
 
 .mobile-menu-profile {

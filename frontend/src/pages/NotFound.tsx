@@ -25,7 +25,12 @@ const NotFound = () => {
                     color: 'white'
                 }}
             >Эта страница не существует.</h3>
-            <Link to="/about" className="tg-login-btn">
+            <Link
+                style={{
+                    display: 'block',
+                }}
+
+                to="/about" className="tg-login-btn">
                 Вернуться на главную
             </Link>
         </div>

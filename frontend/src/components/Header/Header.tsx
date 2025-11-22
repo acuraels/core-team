@@ -10,8 +10,11 @@ const Header = () => {
 
     const [authPath, setAuthPath] = useState<string>("/login");
     const [authLabel, setAuthLabel] = useState<string>("Войти");
+    const [userRole, setUserRole] = useState<UserRole>(null);
 
     const location = useLocation();
+
+    const isActive = (path: string) => location.pathname === path;
 
     // трекаем ширину экрана (мобилка / десктоп)
     useEffect(() => {
@@ -26,22 +29,25 @@ const Header = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // обновляем состояние кнопки при смене роутов / логине / логауте
+    // обновляем состояние кнопки и роли при смене роутов / логине / логауте
     useEffect(() => {
         if (typeof window === "undefined") return;
 
         const token = localStorage.getItem("access_token");
-        const role = localStorage.getItem("user_role") as UserRole;
+        const role = (localStorage.getItem("user_role") as UserRole) || null;
 
         if (token && role === "Reader") {
             setAuthPath("/reader-profile");
             setAuthLabel("Профиль");
+            setUserRole("Reader");
         } else if (token && role === "Librarian") {
             setAuthPath("/librarian-profile");
             setAuthLabel("Профиль");
+            setUserRole("Librarian");
         } else {
             setAuthPath("/login");
             setAuthLabel("Войти");
+            setUserRole(null);
         }
     }, [location.pathname]);
 
@@ -57,17 +63,59 @@ const Header = () => {
                     </Link>
 
                     <div className="header-right">
-                        <Link to="/about" className="header-link">
-                            О библиотеке
-                        </Link>
+                        {userRole === "Librarian" ? (
+                            <>
+                                <Link
+                                    to="/readers"
+                                    className={`header-link ${isActive("/readers") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    Читатели
+                                </Link>
 
-                        <Link to="/books" className="header-link">
-                            Книги
-                        </Link>
+                                <Link
+                                    to="/books"
+                                    className={`header-link ${isActive("/books") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    Учёт книг
+                                </Link>
 
-                        <Link to="/events" className="header-link">
-                            Мероприятия
-                        </Link>
+                                <Link
+                                    to="/events"
+                                    className={`header-link ${isActive("/events") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    Редактор мероприятий
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/about"
+                                    className={`header-link ${isActive("/about") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    О библиотеке
+                                </Link>
+
+                                <Link
+                                    to="/books"
+                                    className={`header-link ${isActive("/books") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    Книги
+                                </Link>
+
+                                <Link
+                                    to="/events"
+                                    className={`header-link ${isActive("/events") ? "header-link--active" : ""
+                                        }`}
+                                >
+                                    Мероприятия
+                                </Link>
+                            </>
+                        )}
 
                         {/* на десктопе — динамическая кнопка (Войти / Профиль) */}
                         {!isMobile && (
@@ -93,29 +141,65 @@ const Header = () => {
                 onClick={closeMenu}
             />
             <div className={`mobile-menu ${menuOpen ? "mobile-menu--open" : ""}`}>
-                <Link
-                    to="/about"
-                    className="mobile-menu-link"
-                    onClick={closeMenu}
-                >
-                    О библиотеке
-                </Link>
+                {userRole === "Librarian" ? (
+                    <>
+                        <Link
+                            to="/readers"
+                            className={`mobile-menu-link ${isActive("/readers") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            Читатели
+                        </Link>
 
-                <Link
-                    to="/books"
-                    className="mobile-menu-link"
-                    onClick={closeMenu}
-                >
-                    Книги
-                </Link>
+                        <Link
+                            to="/books"
+                            className={`mobile-menu-link ${isActive("/books") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            Учёт книг
+                        </Link>
 
-                <Link
-                    to="/events"
-                    className="mobile-menu-link"
-                    onClick={closeMenu}
-                >
-                    Мероприятия
-                </Link>
+                        <Link
+                            to="/events"
+                            className={`mobile-menu-link ${isActive("/events") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            Редактор мероприятий
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link
+                            to="/about"
+                            className={`mobile-menu-link ${isActive("/about") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            О библиотеке
+                        </Link>
+
+                        <Link
+                            to="/books"
+                            className={`mobile-menu-link ${isActive("/books") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            Книги
+                        </Link>
+
+                        <Link
+                            to="/events"
+                            className={`mobile-menu-link ${isActive("/events") ? "mobile-menu-link--active" : ""
+                                }`}
+                            onClick={closeMenu}
+                        >
+                            Мероприятия
+                        </Link>
+                    </>
+                )}
 
                 {/* на мобиле — та же динамическая кнопка, другой стиль */}
                 {isMobile && (

@@ -4,19 +4,25 @@ import { ToastContainer } from 'react-toastify';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 import NotFound from './pages/NotFound.tsx';
-
 import Unauthorized from './pages/Unauthorized.tsx';
 
 import AboutPage from './pages/AboutPage/AboutPage.tsx';
+
 import BooksPage from './pages/BooksPage/BooksPage.tsx';
+import BookDetailsPage from './pages/BookDetailsPage/BookDetailsPage.tsx';
+
 import EventsPage from './pages/EventsPage/EventsPage.tsx';
+import EventDetailsPage from './pages/EventDetailsPage/EventDetailsPage.tsx';
+
 import LoginPage from './pages/LoginPage/LoginPage.tsx';
 import Logout from './pages/LogOut.tsx';
 
+
 import ReaderProfile from './pages/ReaderProfile/ReaderProfile.tsx';
+
 import LibrarianProfile from './pages/LibrarianProfile/LibrarianProfile.tsx';
-import BookDetailsPage from './pages/BookDetailsPage/BookDetailsPage.tsx';
-import EventDetailsPage from './pages/EventDetailsPage/EventDetailsPage.tsx';
+import ReadersPage from './pages/ReadersPage/ReadersPage.tsx';
+
 
 function App() {
   return (
@@ -47,6 +53,12 @@ function App() {
           <Route path="/librarian-profile" element={
             <ProtectedRoute allowedRoles={['Librarian']}>
               <LibrarianProfile />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/readers" element={
+            <ProtectedRoute allowedRoles={['Librarian']}>
+              <ReadersPage />
             </ProtectedRoute>
           } />
         </Routes>

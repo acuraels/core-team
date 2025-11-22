@@ -1,0 +1,97 @@
+.librarian-profile {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+}
+
+/* верхушка: заголовок + кнопка "Выйти" */
+.librarian-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.librarian-title {
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.librarian-profile-subtitle {
+    margin-top: 0;
+    font-size: 14px;
+    color: #707070;
+}
+
+/* кнопка выхода */
+.librarian-logout-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background-color: #077037;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.librarian-logout-btn:hover {
+    background-color: #07542a;
+}
+
+.librarian-logout-btn:active {
+    background-color: #04361b;
+}
+
+/* блок с данными библиотекаря */
+.librarian-info-section {
+    margin-top: 8px;
+}
+
+.librarian-info-card {
+    padding: 20px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 6px;
+}
+
+.librarian-info-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888888;
+    margin-top: 8px;
+}
+
+.librarian-info-label:first-of-type {
+    margin-top: 0;
+}
+
+.librarian-info-value {
+    font-family: "Golos Text", sans-serif;
+    font-size: 16px;
+    color: #111827;
+}
+
+/* адаптив под мобилу */
+@media (max-width: 768px) {
+    .librarian-profile {
+        padding: 16px 0 32px;
+    }
+
+    .librarian-profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .librarian-info-card {
+        padding: 16px;
+    }
+}
