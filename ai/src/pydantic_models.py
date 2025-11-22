@@ -2,14 +2,13 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    id: int
+    isbn: int
     title: str
     author: str
-    genre: str
     description: str
+    image_url: str
 
 
 class RecommendationResponse(BaseModel):
     user_id: int
-    ai_analysis: str
     recommended_books: list[Book]

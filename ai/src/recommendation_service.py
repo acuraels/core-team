@@ -1,12 +1,16 @@
+from logging import getLogger
+
 from src.book_searcher import BookSearcher
+
+logger = getLogger(__name__)
 
 
 class RecommendationService:
     def __init__(self):
-        print("Инициализируем RecommendationService...")
+        logger.info("Инициализируем RecommendationService...")
         self._book_searcher = BookSearcher()
         # self._giga_chat = GigaChatService()
-        print("Инициализация RecommendationService завершена...")
+        logger.info("Инициализация RecommendationService завершена...")
 
     @staticmethod
     def get_favourite_books(user_id: int) -> list[dict[str, str]]:

@@ -1,9 +1,12 @@
+import logging
+
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from src.api import router as main_router
 
+logging.basicConfig(level=logging.INFO)
 load_dotenv()
 app = FastAPI(title="Book Recommender AI")
 

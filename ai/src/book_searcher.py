@@ -1,3 +1,4 @@
+from logging import getLogger
 from typing import Any
 
 import chromadb
@@ -5,21 +6,23 @@ from sentence_transformers import SentenceTransformer
 
 from src.constants import ALL_BOOKS_DB as FAKE_DB_BOOKS
 
+logger = getLogger(__name__)
+
 
 class BookSearcher:
     def __init__(self):
-        print("Инициализируем Book Searcher...")
+        logger.info("Инициализируем Book Searcher...")
         self.model = self._load_model()
 
         try:
             self.chroma_client = chromadb.PersistentClient(path="./chroma_storage")
             self.collection = self.chroma_client.get_or_create_collection(name="books_collection")
         except Exception as e:
-            print(f"Ошибка при инициализации ChromaDB: {e}")
+            logger.critical(f"Ошибка при инициализации ChromaDB: {e}")
             exit()
 
         self._fill_vector_db()
-        print("Инициализация Book Searcher завершена.")
+        logger.info("Инициализация Book Searcher завершена.")
 
     def search(self, user_query: str, exclude_ids: list[int], limit: int = 5) -> list[dict[str, Any]]:
         """
@@ -40,11 +43,11 @@ class BookSearcher:
         if results.get('metadatas') and results['metadatas'][0]:
             for meta in results['metadatas'][0]:
                 if meta['id'] in exclude_ids:
-                    print(f'Исключена из рекомендации книга {meta['id']}')
+                    logger.info(f'Исключена из рекомендации книга {meta['id']}')
                     continue
                 found_books.append(meta)
         else:
-            print("ОШИБКА - не удалось найти книги")
+            logger.error("ОШИБКА - не удалось найти книги")
 
         return found_books
 
@@ -53,7 +56,7 @@ class BookSearcher:
         documents = []
         metadatas = []
 
-        print("Начинаю векторизацию...")
+        logger.info("Начинаю векторизацию...")
 
         for book in FAKE_DB_BOOKS:
             text_to_vectorize = (
@@ -80,15 +83,15 @@ class BookSearcher:
             metadatas=metadatas
         )
 
-        print(f"Готово! Загружено {len(ids)} книг в векторную БД.")
+        logger.info(f"Готово! Загружено {len(ids)} книг в векторную БД.")
 
     @staticmethod
     def _load_model():
         try:
             model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
-            print("Embedding модель успешно загружена.")
+            logger.info("Embedding модель успешно загружена.")
         except Exception as e:
-            print(f"Ошибка при загрузке Embedding модели: {e}.\n"
-                  f"Программа остановлена.")
+            logger.critical(f"Ошибка при загрузке Embedding модели: {e}.\n"
+                            f"Программа остановлена.")
             exit()
         return model
