@@ -30,11 +30,16 @@ const Header = () => {
                     </Link>
 
                     <div className="header-right">
-                        <Link to="/" className="header-link">
-                            Вкладка
+                        <Link to="/about" className="header-link">
+                            О библиотеке
                         </Link>
-                        <Link to="/" className="header-link">
-                            Вкладка
+
+                        <Link to="/books" className="header-link">
+                            Книги
+                        </Link>
+
+                        <Link to="/events" className="header-link">
+                            Мероприятия
                         </Link>
 
                         {/* на десктопе кнопка "Войти" в хэдере */}
@@ -62,18 +67,27 @@ const Header = () => {
             />
             <div className={`mobile-menu ${menuOpen ? "mobile-menu--open" : ""}`}>
                 <Link
-                    to="/"
+                    to="/about"
                     className="mobile-menu-link"
                     onClick={closeMenu}
                 >
-                    Вкладка
+                    О библиотеке
                 </Link>
+
                 <Link
-                    to="/"
+                    to="/books"
                     className="mobile-menu-link"
                     onClick={closeMenu}
                 >
-                    Вкладка
+                    Книги
+                </Link>
+
+                <Link
+                    to="/events"
+                    className="mobile-menu-link"
+                    onClick={closeMenu}
+                >
+                    Мероприятия
                 </Link>
 
                 {/* на мобиле "Войти" только внутри меню, с тем же стилем */}
