@@ -2,21 +2,24 @@
     display: flex;
     flex-direction: column;
     min-height: 80vh;
-    padding: 40px 120px; /* Базовые отступы */
+    padding: 40px 120px;
+    /* Базовые отступы */
     box-sizing: border-box;
 }
 
 .page-title {
+    text-align: center;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 40px;
-    color: #111827;
+    color: black;
 }
 
 /* Сетка для мероприятий (отличается от книг - карточки шире) */
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 колонки вместо 5 */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 колонки вместо 5 */
     gap: 30px;
     width: 100%;
 }
@@ -42,8 +45,10 @@
     .events-container {
         padding: 40px 60px;
     }
+
     .events-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 колонки */
     }
 }
 
@@ -51,13 +56,16 @@
     .events-container {
         padding: 30px 20px;
     }
+
     .page-title {
         font-size: 2rem;
         margin-bottom: 24px;
         text-align: center;
     }
+
     .events-grid {
-        grid-template-columns: 1fr; /* 1 колонка на мобильном */
+        grid-template-columns: 1fr;
+        /* 1 колонка на мобильном */
         gap: 20px;
     }
 }
