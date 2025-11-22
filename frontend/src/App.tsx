@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage/LoginPage.tsx';
 import ReaderProfile from './pages/ReaderProfile/ReaderProfile.tsx';
 import LibrarianProfile from './pages/LibrarianProfile/LibrarianProfile.tsx';
 import BookDetailsPage from './pages/BookDetailsPage/BookDetailsPage.tsx';
+import EventDetailsPage from './pages/EventDetailsPage/EventDetailsPage.tsx';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/books" element={<BooksPage />} />
           <Route path="/book/:id" element={<BookDetailsPage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/events/:id" element={<EventDetailsPage />} />
           <Route path="/login" element={<LoginPage />} />
 
 
