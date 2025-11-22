@@ -44,7 +44,7 @@
 .hero-buttons {
     display: flex;
     gap: 16px;
-    width: 80vw;
+    width: fit-content;
     margin: auto;
 }
 
