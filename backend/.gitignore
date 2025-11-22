@@ -1,0 +1,59 @@
+# IDE
+.DS_Store
+Thumbs.db
+*.code-workspace
+.vscode/
+.idea/
+
+# Angular
+**/node_modules/
+**/dist/
+**/out-tsc/
+**/coverage/
+**/.angular/
+**/.nx/cache/
+**/.eslintcache
+**/*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# .NET
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+
+# ReSharper / Rider
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Отладочные/кэш-файлы
+*.pdb
+*.mdb
