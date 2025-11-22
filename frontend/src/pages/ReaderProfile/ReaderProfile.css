@@ -41,6 +41,136 @@
     background-color: #04361b;
 }
 
+/* === инфа о пользователе + смена пароля === */
+
+.reader-info-section {
+    margin-bottom: 20px;
+}
+
+.reader-info-card {
+    padding: 18px 20px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reader-info-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+}
+
+.reader-info-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888888;
+    min-width: 70px;
+}
+
+.reader-info-value {
+    font-family: "Golos Text", sans-serif;
+    font-size: 15px;
+    color: #111827;
+}
+
+.reader-change-password-btn {
+    align-self: flex-start;
+    margin-top: 4px;
+    font-family: "Golos Text", sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.reader-change-password-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.reader-password-form {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reader-password-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+
+.reader-password-input:focus {
+    border-color: #077037;
+    box-shadow: 0 0 0 1px rgba(7, 112, 55, 0.1);
+}
+
+.reader-password-error {
+    font-size: 12px;
+    color: #b91c1c;
+}
+
+.reader-password-success {
+    font-size: 12px;
+    color: #077037;
+    margin-top: 4px;
+}
+
+.reader-password-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.reader-password-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.reader-password-btn--primary {
+    background-color: #077037;
+    color: #ffffff;
+}
+
+.reader-password-btn--primary:hover {
+    background-color: #07542a;
+}
+
+.reader-password-btn--primary:active {
+    background-color: #04361b;
+    transform: translateY(1px);
+}
+
+.reader-password-btn--secondary {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.reader-password-btn--secondary:hover {
+    background-color: #d1d5db;
+}
+
+.reader-password-btn--secondary:active {
+    background-color: #9ca3af;
+    transform: translateY(1px);
+}
+
 /* блок с картой читателя и штрихкодом */
 .reader-card-section {
     margin-bottom: 32px;
@@ -147,21 +277,18 @@
     font-family: "Golos Text", sans-serif;
     font-size: 14px;
     background-color: #c0c0c0;
-    /* серый для неактивной */
     color: #ffffff;
     transition: background-color 0.15s ease;
 }
 
 .reader-tab--active {
     background-color: #1f6aff;
-    /* синий для активной */
 }
 
 .reader-tabs-content {
     border-radius: 8px;
     padding: 16px;
     background-color: #e0e0e0;
-    /* серая плашка под табами */
 }
 
 .reader-empty-tab {
@@ -190,5 +317,14 @@
 
     .reader-tabs-content {
         padding: 12px;
+    }
+
+    .reader-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reader-info-label {
+        min-width: auto;
     }
 }
