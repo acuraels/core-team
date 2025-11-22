@@ -30,14 +30,13 @@ services:
       - "9001:9001"
     volumes:
       - minio_data:/data
-    
-  api:
+
+  backend:
     build:
       context: .
       dockerfile: backend/UnifiedReader/Api/Dockerfile
       args:
         - BUILD_CONFIGURATION=Release
-    container_name: unified-reader-api
     restart: unless-stopped
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -59,16 +58,26 @@ services:
         condition: service_healthy
       minio:
         condition: service_started
-#  ai:
-#    build:
-#      context: ai
-#      dockerfile: Dockerfile
-#    restart: unless-stopped
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
+  ai:
+    build:
+      context: ai
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+      - ai
 
 
 volumes:

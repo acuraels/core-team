@@ -13,7 +13,7 @@ def read_root():
 
 
 @router.get("/recommend/{user_id}")
-def recommend(user_id: int):
+def recommend(user_id: str):
     """
     Основной endpoint для получения рекомендаций на основе истории пользователя.
     """

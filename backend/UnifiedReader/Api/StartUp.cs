@@ -30,17 +30,20 @@ public class Startup
         services.AddSwaggerDocumentation();
         services.AddAuthorization();
         services.AddControllers();
+
+
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowReactApp", policy =>
+            options.AddDefaultPolicy(builder =>
             {
-                policy
-                    .WithOrigins("http://localhost:5173")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
+                builder
+                    .SetIsOriginAllowed(_ => true) // Разрешить любые источники
+                    .AllowAnyMethod()               // Разрешить любые методы
+                    .AllowAnyHeader()               // Разрешить любые заголовки
+                    .AllowCredentials();            // Разрешить куки и токены
             });
         });
-        
+
         services.AddInfrastructure();
         services.AddMinioStorage(Configuration);
         services.AddDal();
@@ -61,7 +64,8 @@ public class Startup
         }
 
         app.UseRouting();
-        app.UseCors("AllowReactApp");
+        app.UseCors();
+
         app.UseAuthentication();
         app.UseAuthorization();
 

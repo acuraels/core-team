@@ -13,7 +13,6 @@ WORKDIR "/src/backend/UnifiedReader/Api"
 RUN dotnet publish "Api.csproj" \
     -c Release \
     -o /app/publish \
-    --no-restore \
     --self-contained false
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
