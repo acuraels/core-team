@@ -77,7 +77,7 @@ public sealed class UsersController : ControllerBase
             return NotFound($"Пользователь с идентификатором {userId} не найден");
         }
 
-        var result = UserMap.MapToResponse(user);
+        var result = UserMap.MapToUserResponse(user);
         return Ok(result);
     }
 
@@ -95,7 +95,7 @@ public sealed class UsersController : ControllerBase
             return NotFound($"Пользователь с идентификатором {id} не найден");
         }
 
-        var result = UserMap.MapToResponse(user);
+        var result = UserMap.MapToUserResponse(user);
 
         return Ok(result);
     }
@@ -116,7 +116,7 @@ public sealed class UsersController : ControllerBase
                 .ToImmutableList();
         }
 
-        var response = users.Select(UserMap.MapToResponse);
+        var response = users.Select(UserMap.MapToUserResponse);
 
         return Ok(response);
     }
@@ -148,7 +148,7 @@ public sealed class UsersController : ControllerBase
             request.Role,
             HttpContext.RequestAborted);
 
-        var response = UserMap.MapToResponse(user);
+        var response = UserMap.MapToUserResponse(user);
 
         return CreatedAtAction(nameof(Get), new
         {
@@ -197,7 +197,7 @@ public sealed class UsersController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Не удалось обновить пользователя");
         }
 
-        return Ok(UserMap.MapToResponse(updated));
+        return Ok(UserMap.MapToUserResponse(updated));
     }
 
     /// <summary>

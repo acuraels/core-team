@@ -12,6 +12,7 @@ public static class LogicStartUp
     {
         services.AddSingleton<IUserIdentifierGenerator, UserIdentifierGenerator>();
         services.AddTransient<IUserCreationService, UserCreationService>();
+        services.AddTransient<IBooksSeedService, BooksSeedService>();
 
         return services;
     }
