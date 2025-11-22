@@ -1,8 +1,14 @@
+using Api.Validation.User;
+using Dal;
 using InfraLib;
 using InfraLib.Swagger;
+using Logic;
 
 namespace Api;
 
+/// <summary>
+/// Стартап
+/// </summary>
 public class Startup
 {
     public IConfiguration Configuration { get; }
@@ -14,6 +20,9 @@ public class Startup
         Environment = env;
     }
 
+    /// <summary>
+    /// Конфигурация сервисов
+    /// </summary>
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddSwaggerDocumentation();
@@ -22,8 +31,14 @@ public class Startup
         services.AddControllers();
         services.AddCors();
         services.AddInfrastructure();
+        services.AddDal();
+        services.AddLogic();
+        services.AddUsers();
     }
 
+    /// <summary>
+    /// Конфигурация приложения
+    /// </summary>
     public void Configure(IApplicationBuilder app)
     {
         if (Environment.IsDevelopment())

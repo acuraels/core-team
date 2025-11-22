@@ -81,7 +81,12 @@ public sealed class PostgresConnection : IDbConnection
     /// <inheritdoc />
     public IDbCommand CreateCommand()
     {
-        throw new NotImplementedException();
+        if (_inner is null)
+        {
+            _inner = new NpgsqlConnection(_connectionString);
+        }
+
+        return _inner.CreateCommand();
     }
 
     /// <inheritdoc />
@@ -101,7 +106,13 @@ public sealed class PostgresConnection : IDbConnection
     /// <inheritdoc />
     public void ChangeDatabase(string databaseName)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(databaseName))
+        {
+            throw new ArgumentException("Имя базы данных не должно быть пустым", nameof(databaseName));
+        }
+
+        IsOpen();
+        _inner!.ChangeDatabase(databaseName);
     }
 
     /// <inheritdoc />

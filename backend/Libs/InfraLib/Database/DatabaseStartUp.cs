@@ -21,6 +21,7 @@ public static class DatabaseStartUp
             .ValidateOnStart();
 
         services.AddTransient<IDbConnection, PostgresConnection>();
+        services.AddHostedService<PostgresMigrationHostedService>();
         return services;
     }
 }

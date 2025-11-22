@@ -20,7 +20,7 @@ public static class SwaggerStartUp
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "API",
+                Title = "UnifiedReader API",
                 Version = "v1"
             });
         });
@@ -36,7 +36,7 @@ public static class SwaggerStartUp
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "UnifiedReader API v1");
         });
 
         return app;
