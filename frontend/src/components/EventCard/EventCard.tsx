@@ -39,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
       <div className="event-info">
         <h3 className="event-name">{event.name}</h3>
-        
+
         <div className="event-meta">
           <div className="meta-item">
             <Calendar size={16} className="meta-icon" />
@@ -47,7 +47,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           </div>
           <div className="meta-item">
             <Clock size={16} className="meta-icon" />
-            <span>{event.start_at}</span>
+            <span>{event.end_at}</span>
           </div>
         </div>
 
@@ -55,19 +55,19 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
         {/* 3. Обновленный футер с двумя метриками */}
         <div className="event-footer">
-            <div className="stat-item" title="Зарегистрировалось">
-                <Users size={16} className="meta-icon" />
-                <span>
-                    Регистраций: <b>{event.registered_count || 0}</b>
-                </span>
-            </div>
-            
-            <div className="stat-item" title="Фактически пришло">
-                <UserCheck size={16} className="meta-icon" />
-                <span>
-                    Посетило: <b>{0}</b>
-                </span>
-            </div>
+          <div className="stat-item" title="Зарегистрировалось">
+            <Users size={16} className="meta-icon" />
+            <span>
+              Регистраций: <b>{event.registered_count || 0}</b>
+            </span>
+          </div>
+
+          <div className="stat-item" title="Фактически пришло">
+            <UserCheck size={16} className="meta-icon" />
+            <span>
+              Посетило: <b>{0}</b>
+            </span>
+          </div>
         </div>
       </div>
     </div>

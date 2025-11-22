@@ -15,6 +15,10 @@
     color: black;
 }
 
+.page-name {
+    margin: auto;
+}
+
 /* Сетка для мероприятий (отличается от книг - карточки шире) */
 .events-grid {
     margin: 40px 0px;
