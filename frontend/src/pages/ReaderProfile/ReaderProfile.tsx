@@ -6,7 +6,6 @@ import Footer from "../../components/Footer/Footer";
 import BookCard from "../../components/BookCard/BookCard";
 
 import "./ReaderProfile.css";
-import axios from "axios";
 
 interface Book {
     id: string | number;
@@ -16,31 +15,41 @@ interface Book {
     coverUrl?: string;
 }
 
+interface ReaderInfo {
+    name: string;
+    surname: string;
+    login: string;
+}
+
 type BooksTab = "favorites" | "issued";
 
 const ReaderProfile = () => {
     const [readerCode, setReaderCode] = useState<string>("");
+    const [readerInfo, setReaderInfo] = useState<ReaderInfo | null>(null);
+
     const [reservedBooks, setReservedBooks] = useState<Book[]>([]);
     const [favoriteBooks, setFavoriteBooks] = useState<Book[]>([]);
     const [issuedBooks, setIssuedBooks] = useState<Book[]>([]);
     const [activeTab, setActiveTab] = useState<BooksTab>("issued");
 
-    const checkButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const [showPasswordForm, setShowPasswordForm] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
 
-        const userId = localStorage.getItem('user_id');
+    // заглушка под загрузку данных читателя
+    useEffect(() => {
+        const storedName = localStorage.getItem("reader_name") || "Имя";
+        const storedSurname = localStorage.getItem("reader_surname") || "Фамилия";
+        const storedLogin = localStorage.getItem("reader_login") || "reader_login";
 
-        try {
-            const response = await axios.get<Book[]>(`http://localhost:8001/api/v1/recommend/${userId}`, {
-                withCredentials: true
-            });
-            const books = response.data;
-
-            console.log("Книги получены:", books);
-        } catch (error) {
-            console.error("Неизвестная ошибка:", error);
-        }
-    };
+        setReaderInfo({
+            name: storedName,
+            surname: storedSurname,
+            login: storedLogin,
+        });
+    }, []);
 
     // генерим / берём 6-значный код читателя
     useEffect(() => {
@@ -155,6 +164,45 @@ const ReaderProfile = () => {
         );
     };
 
+    const togglePasswordForm = () => {
+        setShowPasswordForm((prev) => !prev);
+        setPasswordError(null);
+        setPasswordSuccess(null);
+        setNewPassword("");
+        setConfirmPassword("");
+    };
+
+    const handlePasswordSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setPasswordError(null);
+        setPasswordSuccess(null);
+
+        if (!newPassword || !confirmPassword) {
+            setPasswordError("Заполните оба поля.");
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            setPasswordError("Пароль должен быть не короче 6 символов.");
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            setPasswordError("Пароли не совпадают.");
+            return;
+        }
+
+        // TODO: здесь будет реальный запрос к бэку на смену пароля
+        // например: await axiosInstance.post("/auth/change-password", { newPassword });
+
+        await new Promise((resolve) => setTimeout(resolve, 400));
+
+        setPasswordSuccess("Пароль успешно изменён.");
+        setNewPassword("");
+        setConfirmPassword("");
+        setShowPasswordForm(false);
+    };
+
     return (
         <>
             <Header />
@@ -192,6 +240,85 @@ const ReaderProfile = () => {
                                 Покажите штрихкод на входе или на стойке регистрации —
                                 сотрудник отсканирует его вместо бумажного билета.
                             </p>
+                        </div>
+                    </section>
+
+                    {/* блок с ФИО, логином и сменой пароля */}
+                    <section className="reader-info-section">
+                        <div className="reader-info-card">
+                            <div className="reader-info-row">
+                                <span className="reader-info-label">ФИО</span>
+                                <span className="reader-info-value">
+                                    {readerInfo
+                                        ? `${readerInfo.surname} ${readerInfo.name}`
+                                        : "Загрузка..."}
+                                </span>
+                            </div>
+
+                            <div className="reader-info-row">
+                                <span className="reader-info-label">Логин</span>
+                                <span className="reader-info-value">
+                                    {readerInfo ? readerInfo.login : "—"}
+                                </span>
+                            </div>
+
+                            <button
+                                type="button"
+                                className="reader-change-password-btn"
+                                onClick={togglePasswordForm}
+                            >
+                                {showPasswordForm ? "Скрыть смену пароля" : "Сменить пароль"}
+                            </button>
+
+                            {passwordSuccess && (
+                                <p className="reader-password-success">
+                                    {passwordSuccess}
+                                </p>
+                            )}
+
+                            {showPasswordForm && (
+                                <form
+                                    className="reader-password-form"
+                                    onSubmit={handlePasswordSubmit}
+                                >
+                                    <input
+                                        type="password"
+                                        className="reader-password-input"
+                                        placeholder="Новый пароль"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+                                    <input
+                                        type="password"
+                                        className="reader-password-input"
+                                        placeholder="Повторите новый пароль"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                    />
+
+                                    {passwordError && (
+                                        <p className="reader-password-error">
+                                            {passwordError}
+                                        </p>
+                                    )}
+
+                                    <div className="reader-password-actions">
+                                        <button
+                                            type="submit"
+                                            className="reader-password-btn reader-password-btn--primary"
+                                        >
+                                            Применить
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="reader-password-btn reader-password-btn--secondary"
+                                            onClick={togglePasswordForm}
+                                        >
+                                            Отмена
+                                        </button>
+                                    </div>
+                                </form>
+                            )}
                         </div>
                     </section>
 
@@ -237,7 +364,6 @@ const ReaderProfile = () => {
                     </section>
                 </div>
             </main>
-            <button onClick={checkButton}>ПРОВЕРКА</button>
             <Footer />
         </>
     );

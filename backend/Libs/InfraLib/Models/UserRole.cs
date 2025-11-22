@@ -6,5 +6,6 @@ namespace InfraLib.Models;
 public enum UserRole
 {
     Reader = 1,
-    Librarian = 2
+    Librarian = 2,
+    Admin = 3
 }

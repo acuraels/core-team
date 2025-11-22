@@ -25,12 +25,14 @@
 
 .book-details-image-wrapper {
     flex: 0 0 300px;
+    position: relative;
+    /* чтобы сердечко позиционировалось как в карточке */
 }
 
 .book-details-cover {
     width: 100%;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .book-details-placeholder {
@@ -67,36 +69,51 @@
     color: #000;
 }
 
+.book-details-year {
+    font-size: 1rem;
+    color: #666;
+}
+
 .book-details-description {
     margin-top: 20px;
     line-height: 1.6;
 }
 
+/* Кнопка брони только для читателя */
+
 .booking-button {
     margin-top: 30px;
-    padding: 15px 30px;
-    background-color: #000;
+    padding: 12px 26px;
+    background-color: #077037;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 999px;
     font-size: 1rem;
     cursor: pointer;
     width: fit-content;
-    transition: background-color 0.2s;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+    font-family: "Golos Text", sans-serif;
 }
 
 .booking-button:hover {
-    background-color: #333;
+    background-color: #07542a;
+}
+
+.booking-button:active {
+    background-color: #04361b;
+    transform: translateY(1px);
 }
 
 @media (max-width: 900px) {
     .book-details-container {
         padding: 20px;
     }
+
     .book-details-content {
         flex-direction: column;
         align-items: center;
     }
+
     .book-details-info {
         width: 100%;
     }

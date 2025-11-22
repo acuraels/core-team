@@ -17,6 +17,20 @@ services:
       timeout: 5s
       retries: 10
 
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
   backend:
     build:
       context: .
@@ -32,12 +46,18 @@ services:
       - JwtOptions__Audience=UnifiedReaderClient
       - JwtOptions__SecretKey=230903a8-640a-4502-93b7-9ce3c490d41f8b2c9e7a5f1d3b6e8c0a2f4d6e8b1c3a5f7d9e2b4c6f8a0
       - JwtOptions__AccessTokenLifetimeMinutes=60
+      - MinioOptions__Endpoint=minio:9000
+      - MinioOptions__AccessKey=minio
+      - MinioOptions__SecretKey=minio123
+      - MinioOptions__BucketName=book-images
+      - MinioOptions__UseSsl=false
     ports:
       - "8004:8080"
     depends_on:
       postgres:
         condition: service_healthy
-
+      minio:
+        condition: service_started
   ai:
     build:
       context: ai
@@ -62,3 +82,4 @@ services:
 
 volumes:
   postgres_data:
+  minio_data:

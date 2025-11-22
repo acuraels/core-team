@@ -2,6 +2,7 @@ using Api.Validation.User;
 using Dal;
 using InfraLib;
 using InfraLib.Auth.JWT;
+using InfraLib.Minio;
 using InfraLib.Swagger;
 using Logic;
 
@@ -27,11 +28,10 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddSwaggerDocumentation();
-        services.AddJwtAuth(Configuration);
         services.AddAuthorization();
         services.AddControllers();
 
-    
+
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(builder =>
@@ -45,9 +45,11 @@ public class Startup
         });
 
         services.AddInfrastructure();
+        services.AddMinioStorage(Configuration);
         services.AddDal();
         services.AddLogic();
         services.AddUsers();
+        services.AddJwtAuth(Configuration);
     }
 
     /// <summary>

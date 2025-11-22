@@ -17,43 +17,35 @@ const EventsPage = () => {
                 const mockEvents: LibraryEvent[] = [
                     {
                         id: 1,
-                        title: "Встреча с автором: Алексей Иванов",
+                        name: "Встреча с автором: Алексей Иванов",
                         description: "Уникальная возможность пообщаться с автором бестселлеров, обсудить новинки литературы и получить автограф.",
-                        date: "24 ноября",
-                        time: "18:00",
-                        location: "Читальный зал №1",
-                        isFree: true,
-                        coverUrl: '' // Оставим пустым для проверки плейсхолдера
+                        start_at: "24 ноября 18:00",
+                        end_at: "120 минут",
+                        event_image: ''
                     },
                     {
                         id: 2,
-                        title: "Мастер-класс по реставрации книг",
+                        name: "Мастер-класс по реставрации книг",
                         description: "Научимся базовым техникам восстановления старых переплетов и ухода за домашней библиотекой.",
-                        date: "26 ноября",
-                        time: "14:00",
-                        location: "Мастерская",
-                        isFree: false,
-                        coverUrl: '' 
+                        start_at: "26 ноября 14:00",
+                        end_at: "120 минут",
+                        event_image: '' 
                     },
                     {
                         id: 3,
-                        title: "Лекция: История Екатеринбурга",
+                        name: "Лекция: История Екатеринбурга",
                         description: "Погружение в исторические тайны города с ведущим краеведом области.",
-                        date: "1 декабря",
-                        time: "19:00",
-                        location: "Конференц-зал",
-                        isFree: true,
-                        coverUrl: '' 
+                        start_at: "11 декабря 19:00",
+                        end_at: "120 минут",
+                        event_image: '' 
                     },
                     {
                         id: 4,
-                        title: "Детский книжный клуб",
+                        name: "Детский книжный клуб",
                         description: "Читаем сказки и обсуждаем их с самыми маленькими посетителями.",
-                        date: "3 декабря",
-                        time: "11:00",
-                        location: "Детская зона",
-                        isFree: true,
-                        coverUrl: '' 
+                        start_at: "31 декабря 11:00",
+                        end_at: "120 минут",
+                        event_image: '' 
                     }
                 ];
 
@@ -74,7 +66,7 @@ const EventsPage = () => {
         <>
             <Header />
             <main className='events-container'>
-                <h1 className='page-title'>Афиша мероприятий</h1>
+                <h1 className='page-name'>Афиша мероприятий</h1>
                 
                 {events.length === 0 && !isLoading ? (
                     <div className='empty-events-wrapper'>

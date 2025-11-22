@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
@@ -8,7 +10,6 @@ interface Reader {
     id: string | number;
     name: string;
     surname: string;
-    patronymic?: string;
     overdueCount: number; // просрочено книг
     takenCount: number;   // всего взято книг
 }
@@ -16,40 +17,25 @@ interface Reader {
 const ReadersPage = () => {
     const [readers, setReaders] = useState<Reader[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [fioInput, setFioInput] = useState("");
+    const [surnameInput, setSurnameInput] = useState("");
+    const [nameInput, setNameInput] = useState("");
     const [formError, setFormError] = useState<string | null>(null);
 
-    // мок-данные — потом заменишь реальным запросом
+    const navigate = useNavigate();
+
     useEffect(() => {
         const mockReaders: Reader[] = [
-            {
-                id: 1,
-                name: "Иван",
-                surname: "Иванов",
-                overdueCount: 1,
-                takenCount: 4,
-            },
-            {
-                id: 2,
-                name: "Мария",
-                surname: "Петрова",
-                overdueCount: 0,
-                takenCount: 2,
-            },
-            {
-                id: 3,
-                name: "Алексей",
-                surname: "Сидоров",
-                overdueCount: 2,
-                takenCount: 5,
-            },
+            { id: 1, name: "Иван", surname: "Иванов", overdueCount: 1, takenCount: 4 },
+            { id: 2, name: "Мария", surname: "Петрова", overdueCount: 0, takenCount: 2 },
+            { id: 3, name: "Алексей", surname: "Сидоров", overdueCount: 2, takenCount: 5 },
         ];
 
         setTimeout(() => setReaders(mockReaders), 50);
     }, []);
 
     const openModal = () => {
-        setFioInput("");
+        setSurnameInput("");
+        setNameInput("");
         setFormError(null);
         setIsModalOpen(true);
     };
@@ -61,14 +47,14 @@ const ReadersPage = () => {
 
     const handleCreateReader = (e: React.FormEvent) => {
         e.preventDefault();
-        const parts = fioInput.trim().split(/\s+/).filter(Boolean);
 
-        if (parts.length < 2) {
-            setFormError("Введите фамилию и имя через пробел.");
+        const surname = surnameInput.trim();
+        const name = nameInput.trim();
+
+        if (!surname || !name) {
+            setFormError("Заполните фамилию и имя.");
             return;
         }
-
-        const [surname, name] = parts;
 
         const newReader: Reader = {
             id: Date.now(),
@@ -82,8 +68,11 @@ const ReadersPage = () => {
         closeModal();
     };
 
-    const formatFio = (r: Reader) =>
-        `${r.surname} ${r.name}${r.patronymic ? " " + r.patronymic : ""}`;
+    const formatFio = (r: Reader) => `${r.surname} ${r.name}`;
+
+    const handleOpenReader = (id: string | number) => {
+        navigate(`/readers/${id}`);
+    };
 
     return (
         <>
@@ -110,7 +99,9 @@ const ReadersPage = () => {
                         ) : (
                             <div className="readers-list-card">
                                 <div className="readers-list-header-row">
-                                    <span className="readers-list-header-title">ФИ читателя</span>
+                                    <span className="readers-list-header-title">
+                                        ФИ читателя
+                                    </span>
                                     <span className="readers-list-header-title">
                                         Статус по книгам
                                     </span>
@@ -118,7 +109,11 @@ const ReadersPage = () => {
 
                                 <div className="readers-list">
                                     {readers.map((reader) => (
-                                        <div key={reader.id} className="reader-item">
+                                        <div
+                                            key={reader.id}
+                                            className="reader-item"
+                                            onClick={() => handleOpenReader(reader.id)}
+                                        >
                                             <div className="reader-item-left">
                                                 <p className="reader-item-name">
                                                     {formatFio(reader)}
@@ -146,7 +141,6 @@ const ReadersPage = () => {
             </main>
             <Footer />
 
-            {/* модалка создания читателя */}
             {isModalOpen && (
                 <div className="readers-modal-overlay" onClick={closeModal}>
                     <div
@@ -155,21 +149,26 @@ const ReadersPage = () => {
                     >
                         <h2 className="readers-modal-title">Создать читателя</h2>
                         <p className="readers-modal-subtitle">
-                            Введите ФИ через пробел. Например:{" "}
-                            <span className="readers-modal-example">
-                                Иванов Иван
-                            </span>
+                            Введите фамилию и имя.
                         </p>
 
                         <form onSubmit={handleCreateReader} className="readers-modal-form">
                             <input
                                 type="text"
                                 className="readers-modal-input"
-                                placeholder="Фамилия Имя"
-                                value={fioInput}
-                                onChange={(e) => setFioInput(e.target.value)}
-                                maxLength={120}
+                                placeholder="Фамилия"
+                                value={surnameInput}
+                                onChange={(e) => setSurnameInput(e.target.value)}
+                                maxLength={60}
                                 autoFocus
+                            />
+                            <input
+                                type="text"
+                                className="readers-modal-input"
+                                placeholder="Имя"
+                                value={nameInput}
+                                onChange={(e) => setNameInput(e.target.value)}
+                                maxLength={60}
                             />
 
                             {formError && (

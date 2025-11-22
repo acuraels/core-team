@@ -23,6 +23,7 @@ import ReaderProfile from './pages/ReaderProfile/ReaderProfile.tsx';
 import LibrarianProfile from './pages/LibrarianProfile/LibrarianProfile.tsx';
 import ReadersPage from './pages/ReadersPage/ReadersPage.tsx';
 
+import ReaderDetailsPage from "./pages/ReaderDetailsPage/ReaderDetailsPage";
 
 function App() {
   return (
@@ -59,6 +60,12 @@ function App() {
           <Route path="/readers" element={
             <ProtectedRoute allowedRoles={['Librarian']}>
               <ReadersPage />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/readers/:id" element={
+            <ProtectedRoute allowedRoles={['Librarian']}>
+              <ReaderDetailsPage />
             </ProtectedRoute>
           } />
         </Routes>

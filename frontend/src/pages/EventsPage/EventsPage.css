@@ -17,6 +17,7 @@
 
 /* Сетка для мероприятий (отличается от книг - карточки шире) */
 .events-grid {
+    margin: 40px 0px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     /* 3 колонки вместо 5 */

@@ -1,17 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+// 1. Добавляем иконку UserCheck
+import { Calendar, Clock, Users, UserCheck } from 'lucide-react';
 import './EventCard.css';
 
 export interface LibraryEvent {
   id: string | number;
-  title: string;
+  name: string;
   description: string;
-  date: string;
-  time: string;
-  location: string;
-  coverUrl?: string;
-  isFree?: boolean;
+  start_at: string;
+  end_at: string;
+  event_image?: string;
+  registered_count?: number;
 }
 
 interface EventCardProps {
@@ -22,43 +22,53 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Переходим на страницу события и передаем объект event
     navigate(`/events/${event.id}`, { state: { event } });
   };
 
   return (
     <div className="event-card" onClick={handleClick}>
       <div className="event-image-wrapper">
-        {event.coverUrl ? (
-          <img src={event.coverUrl} alt={event.title} className="event-cover" />
+        {event.event_image ? (
+          <img src={event.event_image} alt={event.name} className="event-cover" />
         ) : (
           <div className="event-cover-placeholder">
-            {event.title[0]}
+            {event.name[0]}
           </div>
         )}
-        {event.isFree && <span className="event-badge">Бесплатно</span>}
       </div>
 
       <div className="event-info">
-        <h3 className="event-title">{event.title}</h3>
+        <h3 className="event-name">{event.name}</h3>
         
         <div className="event-meta">
           <div className="meta-item">
             <Calendar size={16} className="meta-icon" />
-            <span>{event.date}</span>
+            <span>{event.start_at}</span>
           </div>
           <div className="meta-item">
             <Clock size={16} className="meta-icon" />
-            <span>{event.time}</span>
-          </div>
-          {/* Место проведения можно скрыть в карточке, если тесно, но оставим */}
-           <div className="meta-item">
-             <MapPin size={16} className="meta-icon" />
-             <span>{event.location}</span>
+            <span>{event.start_at}</span>
           </div>
         </div>
 
         <p className="event-description">{event.description}</p>
+
+        {/* 3. Обновленный футер с двумя метриками */}
+        <div className="event-footer">
+            <div className="stat-item" title="Зарегистрировалось">
+                <Users size={16} className="meta-icon" />
+                <span>
+                    Регистраций: <b>{event.registered_count || 0}</b>
+                </span>
+            </div>
+            
+            <div className="stat-item" title="Фактически пришло">
+                <UserCheck size={16} className="meta-icon" />
+                <span>
+                    Посетило: <b>{0}</b>
+                </span>
+            </div>
+        </div>
       </div>
     </div>
   );

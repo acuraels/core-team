@@ -9,7 +9,12 @@
     border-radius: 10px;
     cursor: pointer;
     transform: scale(1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.1s ease-in, background 0.1s ease-in;
+    transition: transform 0.2s ease-in-out,
+        box-shadow 0.1s ease-in,
+        background 0.1s ease-in;
+    background-color: #ffffff;
+    position: relative;
+    /* нужно для сердечка */
 }
 
 .book-card:hover {
@@ -17,14 +22,117 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px;
 }
 
+/* обложка / плейсхолдер */
+
 .book-cover {
     width: 100%;
     min-height: 70%;
     height: auto;
     border-radius: 4px;
     margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.book-cover-placeholder {
+    width: 100%;
+    min-height: 70%;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+/* текстовая часть */
+
+.book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.book-title {
+    font-family: "Golos Text", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.book-author {
+    font-size: 14px;
+    color: #4b5563;
+    margin: 0;
 }
 
 .book-year {
-    margin-top: 10px;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* сердечко избранного для читателя */
+
+.book-favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.book-favorite-btn svg {
+    stroke: #9ca3af;
+}
+
+.book-favorite-btn:hover {
+    background-color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.book-favorite-btn--active svg {
+    stroke: #ef4444;
+    fill: #ef4444;
+}
+
+/* статы для библиотекаря */
+
+.book-librarian-stats {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.book-librarian-stat {
+    font-size: 12px;
+    color: #374151;
+    margin: 0;
+}
+
+.book-librarian-stat strong {
+    font-weight: 600;
+}
+
+.yellow {
+    color: #d97706;
+}
+
+.green {
+    color: #888888;
 }

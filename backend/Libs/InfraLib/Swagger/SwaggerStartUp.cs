@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace InfraLib.Swagger;
 
@@ -24,6 +24,7 @@ public static class SwaggerStartUp
                 Version = "v1"
             });
 
+            // Описание схемы Bearer
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -34,11 +35,22 @@ public static class SwaggerStartUp
                 BearerFormat = "JWT"
             });
 
-            options.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
+            // Глобальное требование использовать эту схему
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
-                    new OpenApiSecuritySchemeReference("Bearer"),
-                    new List<string>()
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        In = ParameterLocation.Header,
+                        Name = "Authorization",
+                        Scheme = "bearer"
+                    },
+                    Array.Empty<string>()
                 }
             });
         });
