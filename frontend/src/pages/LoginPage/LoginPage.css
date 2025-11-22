@@ -11,9 +11,57 @@
 }
 
 .login-form-input {
+    width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    outline: none;
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+}
+
+/* обёртка для поля пароля + глазика — единый блок с рамкой */
+.login-form-password-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* инпут пароля внутри общей рамки */
+.login-form-input--password {
+    border: none;
+    /* убираем вторую рамку */
+    border-radius: 0;
+    padding: 10px;
+    padding-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* кнопка-глазик прямо внутри поля */
+.login-form-password-toggle {
+    background: transparent;
+    border: none;
+    padding: 0 10px;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #077037;
+}
+
+.login-form-password-toggle:hover {
+    color: #07542a;
+}
+
+.login-form-password-toggle:active {
+    color: #04361b;
 }
 
 .login-form-button {
@@ -28,9 +76,9 @@
 }
 
 .login-form-button:hover {
-    background-color: #07542A;
+    background-color: #07542a;
 }
 
 .login-form-button:active {
-    background-color: #04361B;
+    background-color: #04361b;
 }
