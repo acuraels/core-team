@@ -1,4 +1,5 @@
 using Dal.Users.interfaces;
+using InfraLib.Models;
 using InfraLib.Models.Interfaces;
 
 namespace Dal.Users;

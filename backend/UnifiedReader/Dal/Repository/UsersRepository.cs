@@ -157,4 +157,32 @@ WHERE id = @Id;
 
         return rows > 0;
     }
+
+    /// <inheritdoc />
+    public async Task<User?> GetByLoginAsync(string login)
+    {
+        const string sql = @"
+SELECT 
+    id,
+    name,
+    surname,
+    identifier,
+    login,
+    password,
+    role,
+    created_at
+FROM users
+WHERE login = @Login;
+";
+
+        if (_connection.State != ConnectionState.Open)
+        {
+            _connection.Open();
+        }
+
+        return await _connection.QuerySingleOrDefaultAsync<User>(sql, new
+        {
+            Login = login
+        });
+    }
 }

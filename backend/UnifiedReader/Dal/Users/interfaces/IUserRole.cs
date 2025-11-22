@@ -1,3 +1,5 @@
+using InfraLib.Models;
+
 namespace Dal.Users.interfaces;
 
 /// <summary>

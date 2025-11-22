@@ -1,4 +1,4 @@
-using Api.Models.Request;
+using Api.Controllers.Models.Request;
 using Dal.Repository;
 using Dal.Users;
 using Dal.Users.Migrations;
@@ -19,7 +19,7 @@ public static class UsersStartUp
     {
         services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
         services.AddScoped<IValidator<UpdateUserRequest>, UpdateUserRequestValidator>();
-
+        services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
         services.AddTransient<IUsersRepository, UsersRepository>();
         services.AddTransient<IDatabaseMigration, UsersCreateTableMigration>();
 

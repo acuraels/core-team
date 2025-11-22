@@ -1,4 +1,5 @@
 using Dal.Users;
+using InfraLib.Models;
 
 namespace Logic.Users;
 

@@ -1,6 +1,7 @@
 using Api.Validation.User;
 using Dal;
 using InfraLib;
+using InfraLib.Auth.JWT;
 using InfraLib.Swagger;
 using Logic;
 
@@ -26,7 +27,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddSwaggerDocumentation();
-        services.AddAuthentication().AddJwtBearer();
+        services.AddJwtAuth(Configuration);
         services.AddAuthorization();
         services.AddControllers();
         services.AddCors();

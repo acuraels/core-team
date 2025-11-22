@@ -1,7 +1,7 @@
-using Dal.Users;
 using Dal.Users.interfaces;
+using InfraLib.Models;
 
-namespace Api.Models.Request;
+namespace Api.Controllers.Models.Request;
 
 /// <summary>
 /// request модель создания пользователя

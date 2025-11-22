@@ -1,7 +1,7 @@
-using Dal.Users;
 using Dal.Users.interfaces;
+using InfraLib.Models;
 
-namespace Api.Models.Response;
+namespace Api.Controllers.Models.Response;
 
 /// <summary>
 /// response модель

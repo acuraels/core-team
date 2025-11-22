@@ -1,4 +1,4 @@
-namespace Dal.Users;
+namespace InfraLib.Models;
 
 /// <summary>
 /// Роль пользователя

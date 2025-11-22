@@ -1,4 +1,4 @@
-using Api.Models.Request;
+using Api.Controllers.Models.Request;
 using FluentValidation;
 
 namespace Api.Validation;

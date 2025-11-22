@@ -1,10 +1,11 @@
 using System.Collections.Immutable;
+using Api.Controllers.Models.Request;
+using Api.Controllers.Models.Response;
 using Api.Mapping.Response;
-using Api.Models.Request;
-using Api.Models.Response;
 using Api.Validation.Extensions;
 using Dal.Users;
 using FluentValidation;
+using InfraLib.Models;
 using Logic.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/v1/users")]
+[Authorize]
 public sealed class UsersController : ControllerBase
 {
     /// <summary>
@@ -51,10 +53,9 @@ public sealed class UsersController : ControllerBase
     }
 
     /// <summary>
-    /// Получение информации о пользователе
+    /// Получение информации о текущем пользователе
     /// </summary>
     [HttpGet("me")]
-    [Authorize]
     public async Task<ActionResult<UserResponse>> GetMe()
     {
         var userIdClaim = User.FindFirst("userId") ?? User.FindFirst("sub");
@@ -125,6 +126,7 @@ public sealed class UsersController : ControllerBase
     /// </summary>
     [HttpPost("create")]
     [ProducesResponseType(201)]
+    [AllowAnonymous]
     public async Task<ActionResult<UserResponse>> Create([FromBody] CreateUserRequest request)
     {
         var validationResult = await _createValidator.ValidateAsync(request);

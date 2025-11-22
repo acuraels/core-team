@@ -1,4 +1,4 @@
-using Api.Models.Response;
+using Api.Controllers.Models.Response;
 using Dal.Users;
 
 namespace Api.Mapping.Response;

@@ -29,4 +29,9 @@ public interface IUsersRepository
     /// Удаление пользователей
     /// </summary> 
     Task<bool> DeleteAsync(Guid id);
+    
+    /// <summary>
+    /// Получение логина
+    /// </summary>
+    Task<User?> GetByLoginAsync(string login);
 }

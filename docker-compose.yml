@@ -1,17 +1,42 @@
 services:
   postgres:
-    image: postgres:16
-    container_name: postgres
+    image: postgres:16-alpine
+    container_name: postgres_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    container_name: unified-reader-api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - PostgresOptions__ConnectionString=Host=postgres;Port=5432;Username=postgres;Password=postgres;Database=postgres;Include Error Detail=true
+      - JwtOptions__Issuer=UnifiedReader
+      - JwtOptions__Audience=UnifiedReaderClient
+      - JwtOptions__SecretKey=230903a8-640a-4502-93b7-9ce3c490d41f8b2c9e7a5f1d3b6e8c0a2f4d6e8b1c3a5f7d9e2b4c6f8a0
+      - JwtOptions__AccessTokenLifetimeMinutes=60
+    ports:
+      - "8000:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 
 volumes:
   postgres_data:
