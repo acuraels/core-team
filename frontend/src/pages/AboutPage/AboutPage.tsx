@@ -8,7 +8,7 @@ const AboutPage = () => {
         <>
             <Header />
             <main className='home-container'>
-                <h1 className='home-title'>ЕЧБ библиотеки №14</h1>
+                <h1 className='home-title'>ЕЧБ библиотеки № 14</h1>
             </main>
             <Footer />
         </>

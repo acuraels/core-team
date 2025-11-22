@@ -18,7 +18,7 @@ const Footer = () => {
             </div>
 
             <div className='footer-bottom'>
-                <span className='footer-bottom-text'>© 2024 ЕЧБ библиотеки №14. CoreTeam</span>
+                <span className='footer-bottom-text'>© 2024 ЕЧБ библиотеки № 14. CoreTeam</span>
             </div>
         </footer>
     );

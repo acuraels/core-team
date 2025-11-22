@@ -12,6 +12,7 @@ html {
 img {
   width: 100%;
   display: block;
+  user-select: none;
 }
 
 a {
@@ -19,7 +20,7 @@ a {
 }
 
 body {
-  font-family: "Anonymous Pro", sans-serif;
+  font-family: "Golos Text", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
