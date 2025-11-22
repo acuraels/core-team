@@ -5,6 +5,8 @@ import Footer from '../../components/Footer/Footer';
 import "./AboutPage.css";
 
 const AboutPage = () => {
+    const userRole = localStorage.getItem('user_role');
+
     return (
         <>
             <Header />
@@ -21,14 +23,35 @@ const AboutPage = () => {
                             Единый цифровой читательский билет, умный поиск с ИИ
                             и центр культурной жизни Екатеринбурга в вашем смартфоне.
                         </p>
-                        <div className='hero-buttons'>
-                            <Link to="/login" className='btn-primary'>
-                                Войти в личный кабинет
-                            </Link>
-                            <Link to="/books" className='btn-secondary'>
-                                Перейти в каталог
-                            </Link>
-                        </div>
+                        {userRole === 'Reader' ? (
+                            <div className='hero-buttons'>
+                                <Link to="/reader-profile" className='btn-primary'>
+                                    Перейти в личный кабинет
+                                </Link>
+                                <Link to="/books" className='btn-secondary'>
+                                    Перейти в каталог
+                                </Link>
+                            </div> 
+                        ) : (userRole === 'Librarian') ? (
+                            <div className='hero-buttons'>
+                                <Link to="/librarian-profile" className='btn-primary'>
+                                    Перейти в личный кабинет
+                                </Link>
+                                <Link to="/books" className='btn-secondary'>
+                                    Перейти в каталог
+                                </Link>
+                            </div> 
+                        ) : (
+                            <div className='hero-buttons'>
+                                <Link to="/login" className='btn-primary'>
+                                    Войти в личный кабинет
+                                </Link>
+                                <Link to="/books" className='btn-secondary'>
+                                    Перейти в каталог
+                                </Link>
+                            </div>
+                        )}
+                        
                     </div>
                     <div className='hero-visual'>
                         {/* Абстрактная визуализация цифрового билета */}
