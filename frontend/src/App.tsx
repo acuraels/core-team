@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from './pages/NotFound.tsx';
 
 import AboutPage from './pages/AboutPage/AboutPage.tsx';
+import BooksPage from './pages/BooksPage/BooksPage.tsx';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
 
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/books" element={<BooksPage />} />
         </Routes>
       </BrowserRouter>
 
