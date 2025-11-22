@@ -1,9 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-WORKDIR /app
-EXPOSE 8080
-
-# SDK
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 WORKDIR /src
 
 COPY ["backend/UnifiedReader/Api/Api.csproj", "backend/UnifiedReader/Api/"]
@@ -16,11 +11,19 @@ RUN dotnet restore "backend/UnifiedReader/Api/Api.csproj"
 COPY . .
 
 WORKDIR "/src/backend/UnifiedReader/Api"
-RUN dotnet publish "Api.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "Api.csproj" \
+    -c Release \
+    -o /app/publish \
+    --no-restore \
+    --self-contained false
 
-# Финальный образ
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+
+EXPOSE 8080
+
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_URLS=http://+:8080
 
 ENTRYPOINT ["dotnet", "Api.dll"]
