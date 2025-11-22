@@ -5,6 +5,8 @@ import NotFound from './pages/NotFound.tsx';
 
 import AboutPage from './pages/AboutPage/AboutPage.tsx';
 import BooksPage from './pages/BooksPage/BooksPage.tsx';
+import EventsPage from './pages/EventsPage/EventsPage.tsx';
+import LoginPage from './pages/LoginPage/LoginPage.tsx';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
 
           <Route path="/about" element={<AboutPage />} />
           <Route path="/books" element={<BooksPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
 

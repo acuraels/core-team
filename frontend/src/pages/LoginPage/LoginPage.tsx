@@ -1,18 +1,17 @@
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
-import "./BooksPage.css";
+import "./LoginPage.css";
 
-const BooksPage = () => {
+const LoginPage = () => {
     return (
         <>
             <Header />
-            <main className='main-container books-container'>
-
+            <main className='main-container login-container'>
             </main>
             <Footer />
         </>
     );
 };
 
-export default BooksPage;
+export default LoginPage;

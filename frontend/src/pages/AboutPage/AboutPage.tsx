@@ -7,7 +7,7 @@ const AboutPage = () => {
     return (
         <>
             <Header />
-            <main className='home-container'>
+            <main className='main-container home-container'>
                 <h1 className='home-title'>ЕЧБ библиотеки № 14</h1>
             </main>
             <Footer />

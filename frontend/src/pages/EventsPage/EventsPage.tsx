@@ -1,13 +1,13 @@
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
-import "./BooksPage.css";
+import "./EventsPage.css";
 
-const BooksPage = () => {
+const EventsPage = () => {
     return (
         <>
             <Header />
-            <main className='main-container books-container'>
+            <main className='main-container events-container'>
 
             </main>
             <Footer />
@@ -15,4 +15,4 @@ const BooksPage = () => {
     );
 };
 
-export default BooksPage;
+export default EventsPage;

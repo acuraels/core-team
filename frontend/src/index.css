@@ -27,3 +27,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
 }
+
+.main-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+}
