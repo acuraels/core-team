@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from src.recommendation_service import RecommendationService
 
+
 router = APIRouter()
 recommendation_service = RecommendationService()
 

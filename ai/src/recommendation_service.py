@@ -1,24 +1,20 @@
-from logging import getLogger
-
 from src.book_searcher import BookSearcher
-from src.pydantic_models import RecommendationResponse
 from src.constants import ALL_BOOKS_DB
 from src.pydantic_models import Book
-
-logger = getLogger(__name__)
+from src.pydantic_models import RecommendationResponse
 
 
 class RecommendationService:
     def __init__(self):
-        logger.info("Инициализируем RecommendationService...")
+        print("Инициализируем RecommendationService...")
         self._book_searcher = BookSearcher()
         # self._giga_chat = GigaChatService()
-        logger.info("Инициализация RecommendationService завершена...")
+        print("Инициализация RecommendationService завершена")
 
     @staticmethod
     def get_favourite_books(user_id: int) -> list[Book]:
         # TODO: адекватно получать любимые книги (из бд)
-        return ALL_BOOKS_DB[2]
+        return [ALL_BOOKS_DB[2]]
 
     @staticmethod
     def get_search_query(favourite_books: list[Book]) -> str:
