@@ -1,0 +1,406 @@
+.reader-profile {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+}
+
+/* верхушка: заголовок + кнопка "Назад" */
+.reader-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.reader-profile-subtitle {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #707070;
+}
+
+.reader-back-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background-color: #e5e7eb;
+    color: #111827;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.reader-back-btn:hover {
+    background-color: #d1d5db;
+}
+
+.reader-back-btn:active {
+    background-color: #9ca3af;
+    transform: translateY(1px);
+}
+
+/* === инфа о пользователе + смена пароля === */
+
+.reader-info-section {
+    margin-bottom: 20px;
+}
+
+.reader-info-card {
+    padding: 18px 20px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reader-info-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+}
+
+.reader-info-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888888;
+    min-width: 70px;
+}
+
+.reader-info-value {
+    font-family: "Golos Text", sans-serif;
+    font-size: 15px;
+    color: #111827;
+}
+
+.reader-change-password-btn {
+    align-self: flex-start;
+    margin-top: 4px;
+    font-family: "Golos Text", sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.reader-change-password-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.reader-password-form {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.reader-password-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+
+.reader-password-input:focus {
+    border-color: #077037;
+    box-shadow: 0 0 0 1px rgba(7, 112, 55, 0.1);
+}
+
+.reader-password-error {
+    font-size: 12px;
+    color: #b91c1c;
+}
+
+.reader-password-success {
+    font-size: 12px;
+    color: #077037;
+    margin-top: 4px;
+}
+
+.reader-password-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.reader-password-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+}
+
+.reader-password-btn--primary {
+    background-color: #077037;
+    color: #ffffff;
+}
+
+.reader-password-btn--primary:hover {
+    background-color: #07542a;
+}
+
+.reader-password-btn--primary:active {
+    background-color: #04361b;
+    transform: translateY(1px);
+}
+
+.reader-password-btn--secondary {
+    background-color: #e5e7eb;
+    color: #111827;
+}
+
+.reader-password-btn--secondary:hover {
+    background-color: #d1d5db;
+}
+
+.reader-password-btn--secondary:active {
+    background-color: #9ca3af;
+    transform: translateY(1px);
+}
+
+/* блок с картой читателя и штрихкодом */
+
+.reader-card-section {
+    margin-bottom: 32px;
+}
+
+.reader-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.reader-card-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #777777;
+}
+
+.reader-card-code {
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.reader-barcode {
+    margin-top: 4px;
+    padding: 12px 16px 10px;
+    border-radius: 12px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.reader-barcode-visual {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    background-image: repeating-linear-gradient(to right,
+            #000000,
+            #000000 2px,
+            transparent 2px,
+            transparent 4px);
+}
+
+.reader-barcode-text {
+    font-family: "Golos Text", monospace;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+}
+
+.reader-card-hint {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #707070;
+}
+
+/* === блок "Забронировано" === */
+
+.reader-reserved-section {
+    margin-top: 32px;
+}
+
+.reader-reserved-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.reader-reserved-empty {
+    font-size: 14px;
+    color: #707070;
+}
+
+.reader-reserved-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.reader-reserved-card {
+    background-color: #ffffff;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reader-reserved-card-top {
+    display: flex;
+    gap: 12px;
+}
+
+.reader-reserved-cover {
+    width: 70px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.reader-reserved-cover-placeholder {
+    width: 70px;
+    height: 100px;
+    border-radius: 8px;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.reader-reserved-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.reader-reserved-book-title {
+    font-family: "Golos Text", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.reader-reserved-book-author {
+    font-size: 13px;
+    color: #4b5563;
+    margin: 0;
+}
+
+.reader-reserved-book-year {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.reader-reserved-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.reader-reserved-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.08s ease;
+    white-space: nowrap;
+}
+
+.reader-reserved-btn--reject {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.reader-reserved-btn--reject:hover {
+    background-color: #fecaca;
+}
+
+.reader-reserved-btn--reject:active {
+    background-color: #fca5a5;
+    transform: translateY(1px);
+}
+
+.reader-reserved-btn--issue {
+    background-color: #077037;
+    color: #ffffff;
+}
+
+.reader-reserved-btn--issue:hover {
+    background-color: #07542a;
+}
+
+.reader-reserved-btn--issue:active {
+    background-color: #04361b;
+    transform: translateY(1px);
+}
+
+/* адаптив */
+
+@media (max-width: 768px) {
+    .reader-profile {
+        padding: 16px 0 32px;
+    }
+
+    .reader-profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reader-card {
+        padding: 16px;
+    }
+
+    .reader-barcode {
+        width: 100%;
+    }
+
+    .reader-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reader-info-label {
+        min-width: auto;
+    }
+}
+
+.reader-reserved-book-code {
+    font-size: 12px;
+    margin: 0;
+}
+
+.reader-reserved-book-code span {
+    font-weight: 500;
+    color: #077037;
+}

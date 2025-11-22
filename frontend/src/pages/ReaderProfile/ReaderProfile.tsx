@@ -221,6 +221,28 @@ const ReaderProfile = () => {
                         </Link>
                     </div>
 
+                    <section className="reader-card-section">
+                        <div className="reader-card">
+                            <p className="reader-card-label">Номер читателя</p>
+                            <p className="reader-card-code">{readerCode || "••••••"}</p>
+
+                            <div className="reader-barcode">
+                                <div
+                                    className="reader-barcode-visual"
+                                    aria-hidden="true"
+                                />
+                                <p className="reader-barcode-text">
+                                    {readerCode || "000000"}
+                                </p>
+                            </div>
+
+                            <p className="reader-card-hint">
+                                Покажите штрихкод на входе или на стойке регистрации —
+                                сотрудник отсканирует его вместо бумажного билета.
+                            </p>
+                        </div>
+                    </section>
+
                     {/* блок с ФИО, логином и сменой пароля */}
                     <section className="reader-info-section">
                         <div className="reader-info-card">
@@ -297,28 +319,6 @@ const ReaderProfile = () => {
                                     </div>
                                 </form>
                             )}
-                        </div>
-                    </section>
-
-                    <section className="reader-card-section">
-                        <div className="reader-card">
-                            <p className="reader-card-label">Номер читателя</p>
-                            <p className="reader-card-code">{readerCode || "••••••"}</p>
-
-                            <div className="reader-barcode">
-                                <div
-                                    className="reader-barcode-visual"
-                                    aria-hidden="true"
-                                />
-                                <p className="reader-barcode-text">
-                                    {readerCode || "000000"}
-                                </p>
-                            </div>
-
-                            <p className="reader-card-hint">
-                                Покажите штрихкод на входе или на стойке регистрации —
-                                сотрудник отсканирует его вместо бумажного билета.
-                            </p>
                         </div>
                     </section>
 

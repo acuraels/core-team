@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
@@ -18,6 +20,8 @@ const ReadersPage = () => {
     const [surnameInput, setSurnameInput] = useState("");
     const [nameInput, setNameInput] = useState("");
     const [formError, setFormError] = useState<string | null>(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const mockReaders: Reader[] = [
@@ -66,6 +70,10 @@ const ReadersPage = () => {
 
     const formatFio = (r: Reader) => `${r.surname} ${r.name}`;
 
+    const handleOpenReader = (id: string | number) => {
+        navigate(`/readers/${id}`);
+    };
+
     return (
         <>
             <Header />
@@ -101,7 +109,11 @@ const ReadersPage = () => {
 
                                 <div className="readers-list">
                                     {readers.map((reader) => (
-                                        <div key={reader.id} className="reader-item">
+                                        <div
+                                            key={reader.id}
+                                            className="reader-item"
+                                            onClick={() => handleOpenReader(reader.id)}
+                                        >
                                             <div className="reader-item-left">
                                                 <p className="reader-item-name">
                                                     {formatFio(reader)}
