@@ -1,0 +1,194 @@
+.reader-profile {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+}
+
+/* верхушка: заголовок + кнопка "Выйти" */
+.reader-profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.reader-profile-subtitle {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #707070;
+}
+
+/* кнопка выхода */
+.reader-logout-btn {
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background-color: #077037;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.reader-logout-btn:hover {
+    background-color: #07542a;
+}
+
+.reader-logout-btn:active {
+    background-color: #04361b;
+}
+
+/* блок с картой читателя и штрихкодом */
+.reader-card-section {
+    margin-bottom: 32px;
+}
+
+.reader-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.reader-card-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #777777;
+}
+
+.reader-card-code {
+    font-family: "Golos Text", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* псевдо-штрихкод */
+.reader-barcode {
+    margin-top: 4px;
+    padding: 12px 16px 10px;
+    border-radius: 12px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.reader-barcode-visual {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    background-image: repeating-linear-gradient(to right,
+            #000000,
+            #000000 2px,
+            transparent 2px,
+            transparent 4px);
+}
+
+.reader-barcode-text {
+    font-family: "Golos Text", monospace;
+    font-size: 16px;
+    letter-spacing: 0.3em;
+}
+
+/* текст-подсказка под билетом */
+.reader-card-hint {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #707070;
+}
+
+/* раздел "Моя бронь" */
+.reader-reservations {
+    margin-top: 8px;
+}
+
+.reader-section-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.reader-books-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.reader-empty-reservations {
+    font-size: 14px;
+    color: #707070;
+}
+
+/* === Табы "Избранное / Выданные книги" === */
+
+.reader-books-tabs {
+    margin-top: 32px;
+}
+
+.reader-tabs-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.reader-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-family: "Golos Text", sans-serif;
+    font-size: 14px;
+    background-color: #c0c0c0;
+    /* серый для неактивной */
+    color: #ffffff;
+    transition: background-color 0.15s ease;
+}
+
+.reader-tab--active {
+    background-color: #1f6aff;
+    /* синий для активной */
+}
+
+.reader-tabs-content {
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #e0e0e0;
+    /* серая плашка под табами */
+}
+
+.reader-empty-tab {
+    font-size: 14px;
+    color: #707070;
+}
+
+/* адаптив под мобилу */
+@media (max-width: 768px) {
+    .reader-profile {
+        padding: 16px 0 32px;
+    }
+
+    .reader-profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reader-card {
+        padding: 16px;
+    }
+
+    .reader-barcode {
+        width: 100%;
+    }
+
+    .reader-tabs-content {
+        padding: 12px;
+    }
+}
