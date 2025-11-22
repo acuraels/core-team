@@ -1,4 +1,3 @@
-import os
 from typing import Mapping
 
 import chromadb
@@ -42,7 +41,7 @@ class BookSearcher:
         if results.get('metadatas') and results['metadatas'][0]:
             for meta in results['metadatas'][0]:
                 if meta['id'] in exclude_ids:
-                    print(f'Исключена из рекомендации книга {meta['id']}')
+                    print(f'Исключена из рекомендации книга {meta["id"]}')
                     continue
                 found_books.append(self._convert_metadata_to_book(meta))
         else:
