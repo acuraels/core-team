@@ -13,6 +13,7 @@ interface Book {
     author: string;
     year?: number;
     coverUrl?: string;
+    reservationUntil?: string; // 👈 дата, до которой действует бронь
 }
 
 interface ReaderInfo {
@@ -72,6 +73,7 @@ const ReaderProfile = () => {
                 author: "Джордж Оруэлл",
                 year: 1949,
                 coverUrl: "../../../public/fakecover.jpg",
+                reservationUntil: "12.12.2025",
             },
             {
                 id: 102,
@@ -79,6 +81,7 @@ const ReaderProfile = () => {
                 author: "Михаил Булгаков",
                 year: 1967,
                 coverUrl: "../../../public/fakecover.jpg",
+                reservationUntil: "15.12.2025",
             },
             {
                 id: 103,
@@ -86,6 +89,7 @@ const ReaderProfile = () => {
                 author: "Фёдор Достоевский",
                 year: 1866,
                 coverUrl: "../../../public/fakecover.jpg",
+                reservationUntil: "20.12.2025",
             },
         ];
 
@@ -332,7 +336,19 @@ const ReaderProfile = () => {
                         ) : (
                             <div className="reader-books-list">
                                 {reservedBooks.map((book) => (
-                                    <BookCard key={book.id} book={book} />
+                                    <div
+                                        key={book.id}
+                                        className="reader-reservation-item"
+                                    >
+                                        <BookCard book={book}
+                                        />
+                                        {book.reservationUntil && (
+                                            <p className="reader-reservation-date">
+                                                Бронь до:{" "}
+                                                <span>{book.reservationUntil}</span>
+                                            </p>
+                                        )}
+                                    </div>
                                 ))}
                             </div>
                         )}
@@ -342,7 +358,9 @@ const ReaderProfile = () => {
                         <div className="reader-tabs-header">
                             <button
                                 type="button"
-                                className={`reader-tab ${activeTab === "favorites" ? "reader-tab--active" : ""
+                                className={`reader-tab ${activeTab === "favorites"
+                                    ? "reader-tab--active"
+                                    : ""
                                     }`}
                                 onClick={() => setActiveTab("favorites")}
                             >
@@ -350,7 +368,9 @@ const ReaderProfile = () => {
                             </button>
                             <button
                                 type="button"
-                                className={`reader-tab ${activeTab === "issued" ? "reader-tab--active" : ""
+                                className={`reader-tab ${activeTab === "issued"
+                                    ? "reader-tab--active"
+                                    : ""
                                     }`}
                                 onClick={() => setActiveTab("issued")}
                             >
