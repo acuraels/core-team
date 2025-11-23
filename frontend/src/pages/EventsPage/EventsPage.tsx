@@ -2,59 +2,61 @@ import { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import EventCard, { type LibraryEvent } from '../../components/EventCard/EventCard';
+// @ts-ignore
+import axiosInstance from "../../utils/axiosInstance";
 import './EventsPage.css';
 
 const EventsPage = () => {
     const [events, setEvents] = useState<LibraryEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Форматирование даты: "24 ноября 18:00"
+    const formatDate = (isoString: string) => {
+        if (!isoString) return '';
+        const date = new Date(isoString);
+        return date.toLocaleString('ru-RU', {
+            day: 'numeric',
+            month: 'long',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    // НОВАЯ ФУНКЦИЯ: Расчет длительности в минутах
+    const calculateDuration = (startIso: string, endIso: string) => {
+        const start = new Date(startIso).getTime();
+        const end = new Date(endIso).getTime();
+        const diffMs = end - start;
+        const minutes = Math.round(diffMs / 60000); // Переводим мс в минуты
+        return `${minutes} минут`;
+    };
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
                 setIsLoading(true);
-                
-                // Моковые данные для хакатона
-                const mockEvents: LibraryEvent[] = [
-                    {
-                        id: 1,
-                        name: "Встреча с автором: Алексей Иванов",
-                        description: "Уникальная возможность пообщаться с автором бестселлеров, обсудить новинки литературы и получить автограф.",
-                        start_at: "24 ноября 18:00",
-                        end_at: "120 минут",
-                        event_image: ''
-                    },
-                    {
-                        id: 2,
-                        name: "Мастер-класс по реставрации книг",
-                        description: "Научимся базовым техникам восстановления старых переплетов и ухода за домашней библиотекой.",
-                        start_at: "26 ноября 14:00",
-                        end_at: "120 минут",
-                        event_image: '' 
-                    },
-                    {
-                        id: 3,
-                        name: "Лекция: История Екатеринбурга",
-                        description: "Погружение в исторические тайны города с ведущим краеведом области.",
-                        start_at: "11 декабря 19:00",
-                        end_at: "120 минут",
-                        event_image: '' 
-                    },
-                    {
-                        id: 4,
-                        name: "Детский книжный клуб",
-                        description: "Читаем сказки и обсуждаем их с самыми маленькими посетителями.",
-                        start_at: "31 декабря 11:00",
-                        end_at: "120 минут",
-                        event_image: '' 
-                    }
-                ];
+                const response = await axiosInstance.get('Events');
+                const data = response.data;
 
-                setTimeout(() => {
-                    setEvents(mockEvents);
-                    setIsLoading(false);
-                }, 50);
+                const mappedEvents: LibraryEvent[] = data.map((e: any) => ({
+                    id: e.id,
+                    name: e.name,
+                    description: e.description,
+                    start_at: formatDate(e.startAt),
+                    
+                    // !!! ЗДЕСЬ ИЗМЕНЕНИЕ !!!
+                    // Вместо форматированной даты конца, сохраняем разницу в минутах
+                    end_at: calculateDuration(e.startAt, e.endAt), 
+                    
+                    event_image: e.eventImage,
+                    registered_count: e.registrationsCount,
+                    visitors_count: e.visitorsCount
+                }));
+
+                setEvents(mappedEvents);
             } catch (err) {
                 console.error("Ошибка при загрузке событий:", err);
+            } finally {
                 setIsLoading(false);
             }
         };
@@ -67,12 +69,10 @@ const EventsPage = () => {
             <Header />
             <main className='events-container'>
                 <h1 className='page-name'>Афиша мероприятий</h1>
-                
                 {events.length === 0 && !isLoading ? (
                     <div className='empty-events-wrapper'>
                         <p className='empty-events-text'>
-                            На данный момент запланированных мероприятий нет. 
-                            Загляните к нам позже!
+                            На данный момент запланированных мероприятий нет.
                         </p>
                     </div>
                 ) : (
