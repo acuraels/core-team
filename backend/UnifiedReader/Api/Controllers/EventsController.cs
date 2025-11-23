@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+/// <summary>
+/// Контроллер действий событий
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public sealed class EventsController : ControllerBase
 {
+    /// <summary>
+    /// event repository
+    /// </summary>
     private readonly IEventsRepository _eventsRepository;
 
     public EventsController(IEventsRepository eventsRepository)

@@ -10,9 +10,21 @@ namespace Dal.Users.Migrations;
 /// </summary>
 public sealed class EventsAlterTablesMigration : IDatabaseMigration
 {
+    /// <summary>
+    /// Подключение к базе данных
+    /// </summary>
     private readonly IDbConnection _connection;
+
+    /// <summary>
+    /// Логгер миграции изменения таблиц событий
+    /// </summary>
     private readonly ILogger<EventsAlterTablesMigration> _logger;
 
+    /// <summary>
+    /// Создает экземпляр миграции изменения таблиц событий
+    /// </summary>
+    /// <param name="connection">Подключение к базе данных</param>
+    /// <param name="logger">Логгер миграции</param>
     public EventsAlterTablesMigration(
         IDbConnection connection,
         ILogger<EventsAlterTablesMigration> logger)
@@ -21,6 +33,10 @@ public sealed class EventsAlterTablesMigration : IDatabaseMigration
         _logger = logger;
     }
 
+    /// <summary>
+    /// Применяет изменения для таблиц events и event_regs
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены операции</param>
     public async Task ApplyAsync(CancellationToken cancellationToken)
     {
         const string sql = @"

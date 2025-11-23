@@ -16,6 +16,7 @@ public sealed class BooksSeedService : IBooksSeedService
         _booksRepository = booksRepository;
     }
 
+    /// <inheritdoc />
     public async Task SeedRandomBooksAsync(int count, CancellationToken cancellationToken)
     {
         await _booksRepository.TruncateAsync(cancellationToken);
@@ -44,12 +45,16 @@ public sealed class BooksSeedService : IBooksSeedService
         await _booksRepository.BulkInsertAsync(books, cancellationToken);
     }
 
+    /// <inheritdoc />
     public async Task ResetWithSingleBookAsync(ClassBookEntity entity, CancellationToken cancellationToken)
     {
         await _booksRepository.TruncateAsync(cancellationToken);
         await _booksRepository.CreateAsync(entity, cancellationToken);
     }
 
+    /// <summary>
+    /// генерация уникального isbn
+    /// </summary>
     private string GenerateUniqueIsbn(ISet<string> usedIsbns)
     {
         while (true)
@@ -65,6 +70,9 @@ public sealed class BooksSeedService : IBooksSeedService
         }
     }
 
+    /// <summary>
+    /// генерация радномного isbn
+    /// </summary>
     private string GenerateRandomIsbn()
     {
         var buffer = new char[13];

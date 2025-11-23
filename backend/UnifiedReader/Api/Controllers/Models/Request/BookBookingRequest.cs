@@ -5,5 +5,8 @@ namespace Api.Controllers.Models.Request;
 /// </summary>
 public sealed class BookBookingRequest
 {
+    /// <summary>
+    /// До какого
+    /// </summary>
     public DateTime BookingEnd { get; init; }
 }

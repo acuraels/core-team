@@ -13,7 +13,14 @@ namespace InfraLib.Auth.JWT;
 /// </summary>
 public sealed class JwtTokenFactory : IJwtTokenFactory
 {
+    /// <summary>
+    /// опции
+    /// </summary>
     private readonly JwtOptions _options;
+    
+    /// <summary>
+    /// симетричный ключ
+    /// </summary>
     private readonly SymmetricSecurityKey _key;
 
     public JwtTokenFactory(IOptions<JwtOptions> options)

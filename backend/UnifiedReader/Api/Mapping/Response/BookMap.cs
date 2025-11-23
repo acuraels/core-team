@@ -3,8 +3,14 @@ using Dal.Models.Books;
 
 namespace Api.Mapping.Response;
 
+/// <summary>
+/// для мапинга кнги
+/// </summary>
 internal class BookMap
 {
+    /// <summary>
+    /// мапинг кнги
+    /// </summary>
     internal static BookResponse MapToBookResponse(ClassBookEntity entity)
     {
         return new BookResponse

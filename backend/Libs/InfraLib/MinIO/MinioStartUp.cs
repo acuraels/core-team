@@ -9,8 +9,14 @@ using Minio;
 
 namespace InfraLib.Minio;
 
+/// <summary>
+/// minio startup
+/// </summary>
 public static class MinioStartUp
 {
+    /// <summary>
+    /// Миньо extension
+    /// </summary>
     public static IServiceCollection AddMinioStorage(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOptions<MinioOptions>()

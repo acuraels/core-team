@@ -2,8 +2,6 @@ using Dapper;
 using Dal.Tokens;
 using Dal.Tokens.interfaces;
 using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Dal.Repository;
 

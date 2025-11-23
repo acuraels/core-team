@@ -24,7 +24,6 @@ public static class SwaggerStartUp
                 Version = "v1"
             });
 
-            // Описание схемы Bearer
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -35,7 +34,6 @@ public static class SwaggerStartUp
                 BearerFormat = "JWT"
             });
 
-            // Глобальное требование использовать эту схему
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {

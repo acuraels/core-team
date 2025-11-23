@@ -16,6 +16,9 @@ namespace Api.Controllers;
 [Authorize(Roles = nameof(UserRole.Admin))]
 public sealed class AdminController : ControllerBase
 {
+    /// <summary>
+    /// user repository
+    /// </summary>
     private readonly IUsersRepository _usersRepository;
 
     public AdminController(IUsersRepository usersRepository)
