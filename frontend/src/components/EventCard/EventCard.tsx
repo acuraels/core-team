@@ -1,17 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// 1. Добавляем иконку UserCheck
 import { Calendar, Clock, Users, UserCheck } from 'lucide-react';
 import './EventCard.css';
 
+// Интерфейс, который используется внутри React компонентов
 export interface LibraryEvent {
-  id: string | number;
+  id: number;
   name: string;
   description: string;
-  start_at: string;
-  end_at: string;
+  start_at: string;      // Отформатированная дата для отображения
+  end_at: string;        // Отформатированная дата для отображения
   event_image?: string;
-  registered_count?: number;
+  registered_count: number; // Маппинг с RegistrationsCount
+  visitors_count: number;   // Маппинг с VisitorsCount
 }
 
 interface EventCardProps {
@@ -53,19 +54,18 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
         <p className="event-description">{event.description}</p>
 
-        {/* 3. Обновленный футер с двумя метриками */}
         <div className="event-footer">
           <div className="stat-item" title="Зарегистрировалось">
             <Users size={16} className="meta-icon" />
             <span>
-              Регистраций: <b>{event.registered_count || 0}</b>
+              Регистраций: <b>{event.registered_count}</b>
             </span>
           </div>
 
           <div className="stat-item" title="Фактически пришло">
             <UserCheck size={16} className="meta-icon" />
             <span>
-              Посетило: <b>{0}</b>
+              Посетило: <b>{event.visitors_count}</b>
             </span>
           </div>
         </div>
