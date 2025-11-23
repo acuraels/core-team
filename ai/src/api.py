@@ -12,7 +12,7 @@ def read_root():
     return {"message": "API is running. Check /docs for endpoints."}
 
 
-@router.get("/recommend/{user_id}")
+@router.get("/{user_id}")
 def recommend(user_id: str):
     """
     Основной endpoint для получения рекомендаций на основе истории пользователя.

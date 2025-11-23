@@ -22,7 +22,7 @@ class BookSearcher:
         self._fill_vector_db()
         print("Инициализация Book Searcher завершена.")
 
-    def search(self, user_query: str, exclude_ids: list[int], limit: int = 5) -> list[Book]:
+    def search(self, user_query: str, exclude_ids: list[int], limit: int = 6) -> list[Book]:
         """
         :param user_query: Строка, описывающая интересы пользователя (вектор запроса).
         :param exclude_ids: ID книг для исключения из поиска (чтобы не выдавались прочитанные книги).
