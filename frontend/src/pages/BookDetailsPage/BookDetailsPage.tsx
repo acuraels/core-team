@@ -1,9 +1,12 @@
+// src/pages/BookDetailsPage/BookDetailsPage.tsx
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+// @ts-ignore
+import axiosInstance from "../../utils/axiosInstance";
 
 import "./BookDetailsPage.css";
 
@@ -24,12 +27,20 @@ interface LocationState {
     book?: Book;
 }
 
+interface RouteParams {
+    [key: string]: string | undefined;
+    id?: string;
+}
+
+
 const BookDetailsPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { id } = useParams<RouteParams>();
 
     const locationState = location.state as LocationState | null;
-    const book = locationState?.book;
+
+    const [book, setBook] = useState<Book | null>(locationState?.book ?? null);
 
     const [userRole, setUserRole] = useState<UserRole>(null);
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -37,7 +48,9 @@ const BookDetailsPage = () => {
 
     // читаем роль и токен
     useEffect(() => {
-        if (typeof window === "undefined") return;
+        if (typeof window === "undefined") {
+            return;
+        }
 
         const token = localStorage.getItem("access_token");
         const role = (localStorage.getItem("user_role") as UserRole) || null;
@@ -48,9 +61,44 @@ const BookDetailsPage = () => {
 
     const isReader = isAuthorized && userRole === "Reader";
 
+    // если пришли по прямой ссылке без state – тянем книгу с бэка
+    useEffect(() => {
+        const fetchBook = async () => {
+            if (book !== null) {
+                return;
+            }
+
+            if (!id) {
+                return;
+            }
+
+            try {
+                const response = await axiosInstance.get(`books/${id}`);
+                const b = response.data;
+
+                const mapped: Book = {
+                    id: b.id ?? b.Id,
+                    name: b.name ?? b.Name,
+                    author: b.author ?? b.Author,
+                    year: b.publishedYear ?? b.PublishedYear,
+                    coverUrl: b.imgPath ?? b.ImgPath ?? undefined,
+                    description: b.description ?? b.Description ?? undefined,
+                };
+
+                setBook(mapped);
+            } catch (error) {
+                console.error("Ошибка при загрузке книги:", error);
+            }
+        };
+
+        fetchBook();
+    }, [id, book]);
+
     // подтягиваем избранное из localStorage для этой книги
     useEffect(() => {
-        if (!book || typeof window === "undefined") return;
+        if (!book || typeof window === "undefined") {
+            return;
+        }
 
         const raw = localStorage.getItem("favorite_book_ids");
         if (!raw) {
@@ -70,8 +118,14 @@ const BookDetailsPage = () => {
         }
     }, [book]);
 
-    const toggleFavorite = () => {
-        if (!book || typeof window === "undefined") return;
+    const toggleFavorite = async () => {
+        if (!book || typeof window === "undefined") {
+            return;
+        }
+
+        if (!isReader) {
+            return;
+        }
 
         let ids: (string | number)[] = [];
         const raw = localStorage.getItem("favorite_book_ids");
@@ -87,23 +141,45 @@ const BookDetailsPage = () => {
             }
         }
 
-        let next: (string | number)[];
+        try {
+            if (ids.includes(book.id)) {
+                await axiosInstance.delete(`books/${book.id}/favorite`);
+                ids = ids.filter((x) => x !== book.id);
+                setIsFavorite(false);
+            } else {
+                await axiosInstance.post(`books/${book.id}/favorite`);
+                ids = [...ids, book.id];
+                setIsFavorite(true);
+            }
 
-        if (ids.includes(book.id)) {
-            next = ids.filter((x) => x !== book.id);
-            setIsFavorite(false);
-        } else {
-            next = [...ids, book.id];
-            setIsFavorite(true);
+            localStorage.setItem("favorite_book_ids", JSON.stringify(ids));
+        } catch (error) {
+            console.error("Ошибка при изменении избранного:", error);
         }
-
-        localStorage.setItem("favorite_book_ids", JSON.stringify(next));
     };
 
-    const handleReserve = () => {
-        if (!book) return;
-        // TODO: здесь потом повесишь реальный запрос на бронирование
-        console.log("Забронировать книгу", book.id);
+    const handleReserve = async () => {
+        if (!book) {
+            return;
+        }
+
+        if (!isReader) {
+            return;
+        }
+
+        try {
+            // простой пример: бронь на 7 дней вперёд
+            const now = new Date();
+            const end = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+            await axiosInstance.post(`books/${book.id}/booking`, {
+                bookingEnd: end.toISOString(),
+            });
+
+            // сюда можно добавить уведомление пользователю об успешной брони
+        } catch (error) {
+            console.error("Ошибка при бронировании книги:", error);
+        }
     };
 
     if (!book) {
@@ -132,8 +208,9 @@ const BookDetailsPage = () => {
                         {isReader && (
                             <button
                                 type="button"
-                                className={`book-favorite-btn ${isFavorite ? "book-favorite-btn--active" : ""
-                                    }`}
+                                className={`book-favorite-btn ${
+                                    isFavorite ? "book-favorite-btn--active" : ""
+                                }`}
                                 onClick={toggleFavorite}
                                 aria-label={
                                     isFavorite

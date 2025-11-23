@@ -29,4 +29,9 @@ public interface IEventsRepository
     /// Отметить посещение события пользователем
     /// </summary>
     Task MarkVisitedAsync(long eventId, Guid userId, CancellationToken cancellationToken);
+    
+    /// <summary>
+    /// Создать событие
+    /// </summary>
+    Task<EventWithStats> CreateAsync(string name, string? description, DateTime startAt, DateTime endAt, string? eventImage, CancellationToken cancellationToken);
 }

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Api.Controllers.Models.Request;
 using Api.Controllers.Models.Response;
 using Dal.Models.Events.interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -77,6 +78,89 @@ public sealed class EventsController : ControllerBase
         };
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Создать новое мероприятие
+    /// </summary>
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<EventResponse>> Create(
+        [FromBody] CreateEventRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (request is null)
+        {
+            return BadRequest("Тело запроса не может быть пустым");
+        }
+
+        // Нужно добавить в IEventsRepository метод CreateAsync
+        // с соответствующей реализацией в DAL.
+        var createdEvent = await _eventsRepository.CreateAsync(
+            request.Name,
+            request.Description,
+            request.StartAt,
+            request.EndAt,
+            request.EventImage,
+            cancellationToken);
+
+        var response = new EventResponse
+        {
+            Id = createdEvent.Id,
+            Name = createdEvent.Name,
+            Description = createdEvent.Description,
+            StartAt = createdEvent.StartAt,
+            EndAt = createdEvent.EndAt,
+            EventImage = createdEvent.EventImage,
+            RegistrationsCount = createdEvent.RegistrationsCount,
+            VisitorsCount = createdEvent.VisitorsCount
+        };
+
+        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+    }
+
+    /// <summary>
+    /// Создать 5 рандомных мероприятий
+    /// </summary>
+    [HttpPost("seed-random")]
+    [Authorize]
+    public async Task<ActionResult<IReadOnlyCollection<EventResponse>>> SeedRandom(
+        CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow;
+        var random = new Random();
+        var result = new List<EventResponse>();
+
+        for (var i = 0; i < 5; i++)
+        {
+            var startAt = now
+                .AddDays(random.Next(0, 30))
+                .AddHours(random.Next(0, 24));
+
+            var endAt = startAt.AddHours(2);
+
+            var createdEvent = await _eventsRepository.CreateAsync(
+                $"Событие {i + 1}",
+                $"Описание события {i + 1}",
+                startAt,
+                endAt,
+                null,
+                cancellationToken);
+
+            result.Add(new EventResponse
+            {
+                Id = createdEvent.Id,
+                Name = createdEvent.Name,
+                Description = createdEvent.Description,
+                StartAt = createdEvent.StartAt,
+                EndAt = createdEvent.EndAt,
+                EventImage = createdEvent.EventImage,
+                RegistrationsCount = createdEvent.RegistrationsCount,
+                VisitorsCount = createdEvent.VisitorsCount
+            });
+        }
+
+        return Ok(result);
     }
 
     /// <summary>

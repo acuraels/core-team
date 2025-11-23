@@ -45,6 +45,9 @@ ALTER TABLE events
 
 ALTER TABLE event_regs
     ADD COLUMN IF NOT EXISTS reg_datetime timestamp with time zone NOT NULL DEFAULT now();
+
+ALTER TABLE event_regs
+    ADD COLUMN IF NOT EXISTS is_visited boolean NOT NULL DEFAULT false;
 ";
 
         if (_connection.State is not ConnectionState.Open)

@@ -15,7 +15,7 @@ namespace Api.Controllers;
 /// Контроллер книг
 /// </summary>
 [ApiController]
-[Route("api/books")]
+[Route("api/v1/books")]
 [Authorize]
 public sealed class BooksController : ControllerBase
 {
