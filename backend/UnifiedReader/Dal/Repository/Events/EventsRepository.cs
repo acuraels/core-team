@@ -158,4 +158,48 @@ ON CONFLICT (event_id, user_id)
                 },
                 cancellationToken: cancellationToken));
     }
+    
+    /// <inheritdoc />
+    public async Task<EventWithStats> CreateAsync(
+        string name,
+        string? description,
+        DateTime startAt,
+        DateTime endAt,
+        string? eventImage,
+        CancellationToken cancellationToken)
+    {
+        const string sql = @"
+INSERT INTO events (name, description, start_at, end_at, event_image)
+VALUES (@Name, @Description, @StartAt, @EndAt, @EventImage)
+RETURNING 
+    id,
+    name,
+    description,
+    start_at AS StartAt,
+    end_at AS EndAt,
+    event_image AS EventImage,
+    0 AS RegistrationsCount,
+    0 AS VisitorsCount;
+";
+
+        if (_connection.State is not ConnectionState.Open)
+        {
+            _connection.Open();
+        }
+
+        var created = await _connection.QuerySingleAsync<EventWithStats>(
+            new CommandDefinition(
+                sql,
+                new
+                {
+                    Name = name,
+                    Description = description,
+                    StartAt = startAt,
+                    EndAt = endAt,
+                    EventImage = eventImage
+                },
+                cancellationToken: cancellationToken));
+
+        return created;
+    }
 }
