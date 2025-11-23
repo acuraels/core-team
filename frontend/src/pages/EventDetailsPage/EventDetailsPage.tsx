@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Calendar, Clock, ArrowLeft, Edit, UserPlus, X, Upload } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, Edit, UserPlus, X, Upload, Check } from 'lucide-react'; // Добавил Check
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import type { LibraryEvent } from '../../components/EventCard/EventCard';
@@ -18,12 +18,23 @@ const EventDetailsPage = () => {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+    // --- Стейт для статуса регистрации текущего пользователя (Reader) ---
+    const [isUserRegistered, setIsUserRegistered] = useState(false);
+
     // --- Стейт для формы редактирования ---
     const [editFormData, setEditFormData] = useState<Partial<LibraryEvent>>({});
 
-    // --- Логика Регистрации читателя ---
+    // --- Логика Регистрации читателя (Для библиотекаря) ---
     const handleRegisterReader = () => {
         setIsRegisterModalOpen(true);
+    };
+
+    // --- Логика Самостоятельной записи (Для читателя) ---
+    const handleSelfRegister = () => {
+        // Здесь будет логика POST запроса: /api/events/{id}/register
+        console.log(`Пользователь записался на событие: ${event.name}`);
+        setIsUserRegistered(true);
+        // Можно добавить toast уведомление об успехе
     };
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -145,6 +156,7 @@ const EventDetailsPage = () => {
                             </div>
                         </div>
 
+                        {/* --- Блок действий для БИБЛИОТЕКАРЯ --- */}
                         {userRole === "Librarian" && (
                             <div className="admin-actions-block">
                                 <button className="action-btn edit-btn" onClick={handleEditEvent}>
@@ -158,6 +170,45 @@ const EventDetailsPage = () => {
                             </div>
                         )}
 
+                        {/* --- Блок действий для ЧИТАТЕЛЯ (Новый код) --- */}
+                        {userRole === "Reader" && (
+                            <div className="reader-actions-block" style={{ marginTop: '20px' }}>
+                                {!isUserRegistered ? (
+                                    <button
+                                        className="action-btn"
+                                        onClick={handleSelfRegister}
+                                        style={{
+                                            backgroundColor: '#2563eb',
+                                            color: 'white',
+                                            width: '40%',
+                                            justifyContent: 'center',
+                                            padding: '12px'
+                                        }}
+                                    >
+                                        <UserPlus size={20} style={{ marginRight: '8px' }} />
+                                        Зарегистрироваться на мероприятие
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="action-btn"
+                                        disabled
+                                        style={{
+                                            backgroundColor: '#10b981', // Зеленый цвет успеха
+                                            color: 'white',
+                                            width: '30%',
+                                            justifyContent: 'center',
+                                            padding: '12px',
+                                            cursor: 'default',
+                                            opacity: 1
+                                        }}
+                                    >
+                                        <Check size={20} style={{ marginRight: '8px' }} />
+                                        Вы записаны
+                                    </button>
+                                )}
+                            </div>
+                        )}
+
                         <div className="event-details-description">
                             <h3>О мероприятии</h3>
                             <p>{event.description}</p>
@@ -165,6 +216,7 @@ const EventDetailsPage = () => {
                     </div>
                 </div>
 
+                {/* Модалка записи читателя (только для библиотекаря) */}
                 {isRegisterModalOpen && (
                     <div className="modal-overlay" onClick={handleCloseRegisterModal}>
                         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -204,6 +256,7 @@ const EventDetailsPage = () => {
                     </div>
                 )}
 
+                {/* Модалка редактирования */}
                 {isEditModalOpen && (
                     <div className="modal-overlay" onClick={handleCloseEditModal}>
                         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -231,7 +284,6 @@ const EventDetailsPage = () => {
 
                                     <div>
                                         <label className="input-label">Описание</label>
-                                        {/* Используем textarea для описания */}
                                         <textarea
                                             name="description"
                                             value={editFormData.description || ''}
@@ -256,24 +308,22 @@ const EventDetailsPage = () => {
                                                 required
                                             />
                                         </div>
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <label className="input-label">Конец (End At)</label>
-                                        <input
-                                            type="text"
-                                            name="end_at"
-                                            value={editFormData.end_at || ''}
-                                            onChange={handleEditChange}
-                                            className="modal-input"
-                                            placeholder="Например: 24 ноября 20:00"
-                                            required
-                                        />
+                                        <div style={{ flex: 1 }}>
+                                            <label className="input-label">Конец (End At)</label>
+                                            <input
+                                                type="text"
+                                                name="end_at"
+                                                value={editFormData.end_at || ''}
+                                                onChange={handleEditChange}
+                                                className="modal-input"
+                                                placeholder="Например: 24 ноября 20:00"
+                                                required
+                                            />
+                                        </div>
                                     </div>
 
                                     <div>
                                         <label className="input-label">Изображение мероприятия</label>
-
-                                        {/* Скрытый инпут */}
                                         <input
                                             type="file"
                                             ref={fileInputRef}
@@ -281,8 +331,6 @@ const EventDetailsPage = () => {
                                             style={{ display: 'none' }}
                                             accept="image/*"
                                         />
-
-                                        {/* Кастомная кнопка и превью */}
                                         <div className="file-upload-container">
                                             <button
                                                 type="button"
@@ -292,8 +340,6 @@ const EventDetailsPage = () => {
                                                 <Upload size={18} />
                                                 {editFormData.event_image ? 'Изменить фото' : 'Загрузить фото'}
                                             </button>
-
-                                            {/* Предпросмотр, если ссылка есть */}
                                             {editFormData.event_image && (
                                                 <div className="image-preview-mini">
                                                     <img src={editFormData.event_image} alt="Preview" />
