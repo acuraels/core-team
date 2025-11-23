@@ -34,7 +34,6 @@ async def start_handler(message: types.Message):
             parse_mode="Markdown",
         )
 
-# ИСПРАВЛЕНИЕ: Используем F.contact вместо filters=ContentType.CONTACT
 @router.message(F.contact)
 async def contact_handler(message: types.Message):
     contact = message.contact
@@ -42,7 +41,7 @@ async def contact_handler(message: types.Message):
 
     registered_users[user_id] = contact.phone_number
 
-    library_url = "https://google.com"
+    library_url = "https://158.160.145.212:5137"
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Перейти на сайт библиотеки", url=library_url)]

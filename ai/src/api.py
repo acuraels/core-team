@@ -7,11 +7,6 @@ router = APIRouter()
 recommendation_service = RecommendationService()
 
 
-@router.get("/")
-def read_root():
-    return {"message": "API is running. Check /docs for endpoints."}
-
-
 @router.get("/{user_id}")
 def recommend(user_id: str):
     """
