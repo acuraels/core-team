@@ -40,7 +40,7 @@
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .event-details-cover {
@@ -70,7 +70,7 @@
     padding: 8px 16px;
     border-radius: 30px;
     font-weight: 700;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Инфо блок */
@@ -158,7 +158,8 @@
     gap: 16px;
     margin-bottom: 30px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #e5e7eb; /* Разделитель перед описанием */
+    border-bottom: 1px solid #e5e7eb;
+    /* Разделитель перед описанием */
 }
 
 .action-btn {
@@ -166,11 +167,13 @@
     align-items: center;
     gap: 8px;
     padding: 12px 20px;
+    width: 60% !important;
     border-radius: 8px;
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-bottom: 40px;
 }
 
 /* Кнопка редактирования - Второстепенная (серая/белая) */
@@ -207,8 +210,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Чтобы было поверх всего */
-    backdrop-filter: blur(4px); /* Эффект размытия фона */
+    z-index: 1000;
+    /* Чтобы было поверх всего */
+    backdrop-filter: blur(4px);
+    /* Эффект размытия фона */
     animation: fadeIn 0.2s ease-out;
 }
 
@@ -278,7 +283,8 @@
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-    box-sizing: border-box; /* Важно, чтобы padding не ломал ширину */
+    box-sizing: border-box;
+    /* Важно, чтобы padding не ломал ширину */
 }
 
 .modal-input:focus {
@@ -342,7 +348,8 @@
     gap: 8px;
     padding: 10px 16px;
     background-color: #f3f4f6;
-    border: 1px dashed #9ca3af; /* Пунктирная рамка, типичная для загрузки */
+    border: 1px dashed #9ca3af;
+    /* Пунктирная рамка, типичная для загрузки */
     border-radius: 8px;
     color: #374151;
     font-weight: 600;
@@ -379,13 +386,25 @@
 
 /* Анимации */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes scaleIn {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Адаптив */
@@ -414,11 +433,11 @@
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
     .event-details-title {
         font-size: 2rem;
     }
-    
+
     .event-booking-button {
         width: 100%;
     }
@@ -428,7 +447,7 @@
     .admin-actions-block {
         flex-direction: column;
     }
-    
+
     .action-btn {
         width: 100%;
         justify-content: center;

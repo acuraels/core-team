@@ -5,6 +5,9 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BookCard from "../../components/BookCard/BookCard";
 
+// @ts-expect-error — JS файл без типов
+import axiosInstance from "../../utils/axiosInstance";
+
 import "./ReaderProfile.css";
 
 interface Book {
@@ -13,13 +16,22 @@ interface Book {
     author: string;
     year?: number;
     coverUrl?: string;
-    reservationUntil?: string; // 👈 дата, до которой действует бронь
+    reservationUntil?: string;
 }
 
 interface ReaderInfo {
     name: string;
     surname: string;
     login: string;
+}
+
+interface MeResponse {
+    id: string;
+    name: string;
+    surname: string;
+    identifier: string;
+    login: string;
+    role: number | string;
 }
 
 type BooksTab = "favorites" | "issued";
@@ -39,32 +51,48 @@ const ReaderProfile = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
 
-    // заглушка под загрузку данных читателя
+    // грузим данные текущего пользователя с бэка
     useEffect(() => {
-        const storedName = localStorage.getItem("reader_name") || "Имя";
-        const storedSurname = localStorage.getItem("reader_surname") || "Фамилия";
-        const storedLogin = localStorage.getItem("reader_login") || "reader_login";
+        const fetchMe = async () => {
+            try {
+                const { data } = await axiosInstance.get<MeResponse>("/users/me");
 
-        setReaderInfo({
-            name: storedName,
-            surname: storedSurname,
-            login: storedLogin,
-        });
+                setReaderInfo({
+                    name: data.name,
+                    surname: data.surname,
+                    login: data.login,
+                });
+
+                // 6-значный идентификатор из бэка
+                if (data.identifier && data.identifier.length > 0) {
+                    setReaderCode(data.identifier);
+                } else {
+                    const fallback = String(
+                        Math.floor(100000 + Math.random() * 900000)
+                    );
+                    setReaderCode(fallback);
+                }
+            } catch (error) {
+                console.error("Не удалось загрузить данные читателя:", error);
+
+                // простая заглушка, если запрос упал
+                setReaderInfo({
+                    name: "Имя",
+                    surname: "Фамилия",
+                    login: "reader_login",
+                });
+
+                const fallback = String(
+                    Math.floor(100000 + Math.random() * 900000)
+                );
+                setReaderCode(fallback);
+            }
+        };
+
+        fetchMe();
     }, []);
 
-    // генерим / берём 6-значный код читателя
-    useEffect(() => {
-        let storedCode = localStorage.getItem("reader_code");
-
-        if (!storedCode) {
-            storedCode = String(Math.floor(100000 + Math.random() * 900000));
-            localStorage.setItem("reader_code", storedCode);
-        }
-
-        setReaderCode(storedCode);
-    }, []);
-
-    // временная статика для раздела "Моя бронь"
+    // статика для раздела "Моя бронь"
     useEffect(() => {
         const mockReserved: Book[] = [
             {
@@ -98,7 +126,7 @@ const ReaderProfile = () => {
         }, 50);
     }, []);
 
-    // заготовка под избранное
+    // статика под избранное
     useEffect(() => {
         const mockFavorites: Book[] = [
             {
@@ -122,7 +150,7 @@ const ReaderProfile = () => {
         }, 50);
     }, []);
 
-    // заготовка под выданные книги
+    // статика под выданные
     useEffect(() => {
         const mockIssued: Book[] = [
             {
@@ -196,8 +224,7 @@ const ReaderProfile = () => {
             return;
         }
 
-        // TODO: здесь будет реальный запрос к бэку на смену пароля
-        // например: await axiosInstance.post("/auth/change-password", { newPassword });
+        // тут потом будет реальный запрос на смену пароля
 
         await new Promise((resolve) => setTimeout(resolve, 400));
 
@@ -228,7 +255,9 @@ const ReaderProfile = () => {
                     <section className="reader-card-section">
                         <div className="reader-card">
                             <p className="reader-card-label">Номер читателя</p>
-                            <p className="reader-card-code">{readerCode || "••••••"}</p>
+                            <p className="reader-card-code">
+                                {readerCode || "••••••"}
+                            </p>
 
                             <div className="reader-barcode">
                                 <div
@@ -247,11 +276,11 @@ const ReaderProfile = () => {
                         </div>
                     </section>
 
-                    {/* блок с ФИО, логином и сменой пароля */}
+                    {/* блок с ФИ, логином и сменой пароля */}
                     <section className="reader-info-section">
                         <div className="reader-info-card">
                             <div className="reader-info-row">
-                                <span className="reader-info-label">ФИО</span>
+                                <span className="reader-info-label">ФИ</span>
                                 <span className="reader-info-value">
                                     {readerInfo
                                         ? `${readerInfo.surname} ${readerInfo.name}`
@@ -271,7 +300,9 @@ const ReaderProfile = () => {
                                 className="reader-change-password-btn"
                                 onClick={togglePasswordForm}
                             >
-                                {showPasswordForm ? "Скрыть смену пароля" : "Сменить пароль"}
+                                {showPasswordForm
+                                    ? "Скрыть смену пароля"
+                                    : "Сменить пароль"}
                             </button>
 
                             {passwordSuccess && (
@@ -297,7 +328,9 @@ const ReaderProfile = () => {
                                         className="reader-password-input"
                                         placeholder="Повторите новый пароль"
                                         value={confirmPassword}
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        onChange={(e) =>
+                                            setConfirmPassword(e.target.value)
+                                        }
                                     />
 
                                     {passwordError && (
@@ -340,8 +373,7 @@ const ReaderProfile = () => {
                                         key={book.id}
                                         className="reader-reservation-item"
                                     >
-                                        <BookCard book={book}
-                                        />
+                                        <BookCard book={book} />
                                         {book.reservationUntil && (
                                             <p className="reader-reservation-date">
                                                 Бронь до:{" "}
@@ -359,8 +391,8 @@ const ReaderProfile = () => {
                             <button
                                 type="button"
                                 className={`reader-tab ${activeTab === "favorites"
-                                    ? "reader-tab--active"
-                                    : ""
+                                        ? "reader-tab--active"
+                                        : ""
                                     }`}
                                 onClick={() => setActiveTab("favorites")}
                             >
@@ -369,8 +401,8 @@ const ReaderProfile = () => {
                             <button
                                 type="button"
                                 className={`reader-tab ${activeTab === "issued"
-                                    ? "reader-tab--active"
-                                    : ""
+                                        ? "reader-tab--active"
+                                        : ""
                                     }`}
                                 onClick={() => setActiveTab("issued")}
                             >
