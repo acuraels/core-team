@@ -12,7 +12,7 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-right">
-                    <a href='https://t.me/hackathon_sber' className="footer-link">Тг канал хакатона</a>
+                    <a href='https://t.me/echb14_bot' className="footer-link">Наш ТГ бот</a>
                     <a href='https://github.com/acuraels/core-team' className="footer-link">Наш GitHub</a>
                 </div>
             </div>
