@@ -326,4 +326,50 @@ public sealed class BooksController : ControllerBase
         await _booksAdminRepository.DropTablesAsync(cancellationToken);
         return NoContent();
     }
+    
+    /// <summary>
+    /// Добавить один экземпляр книги
+    /// </summary>
+    [HttpPost("{id:guid}/object")]
+    public async Task<ActionResult> AddOneObject(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var book = await _booksRepository.GetByIdAsync(id, cancellationToken);
+
+        if (book is null)
+        {
+            return NotFound($"Книга с идентификатором {id} не найдена");
+        }
+
+        await _bookObjectsRepository.AddOneAsync(id, cancellationToken);
+
+        return NoContent();
+    }
+
+    /// <summary>
+    /// Добавить несколько экземпляров книги
+    /// </summary>
+    [HttpPost("{id:guid}/objects")]
+    public async Task<ActionResult> AddManyObjects(
+        Guid id,
+        [FromQuery] int count,
+        CancellationToken cancellationToken)
+    {
+        if (count <= 0)
+        {
+            return BadRequest("Количество экземпляров должно быть больше нуля");
+        }
+
+        var book = await _booksRepository.GetByIdAsync(id, cancellationToken);
+
+        if (book is null)
+        {
+            return NotFound($"Книга с идентификатором {id} не найдена");
+        }
+
+        await _bookObjectsRepository.AddManyAsync(id, count, cancellationToken);
+
+        return NoContent();
+    }
 }

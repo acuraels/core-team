@@ -11,8 +11,19 @@ namespace InfraLib.Database.PostgreSQL;
 /// </summary>
 public sealed class PostgresMigrationHostedService : IHostedService
 {
+    /// <summary>
+    /// Провайдер
+    /// </summary>
     private readonly IServiceProvider _serviceProvider;
+    
+    /// <summary>
+    /// опции
+    /// </summary>
     private readonly IOptions<PostgresOptions> _options;
+    
+    /// <summary>
+    /// логгер
+    /// </summary>
     private readonly ILogger<PostgresMigrationHostedService> _logger;
 
     public PostgresMigrationHostedService(
@@ -25,6 +36,9 @@ public sealed class PostgresMigrationHostedService : IHostedService
         _logger = logger;
     }
 
+    /// <summary>
+    /// старт миграций
+    /// </summary>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         if (_options.Value.AutoMigration is false)
@@ -60,6 +74,9 @@ public sealed class PostgresMigrationHostedService : IHostedService
         _logger.LogInformation("Применение миграций завершено");
     }
 
+    /// <summary>
+    /// стоп миграциям
+    /// </summary>
     public Task StopAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;

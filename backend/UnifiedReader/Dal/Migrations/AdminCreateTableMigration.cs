@@ -7,9 +7,21 @@ namespace Dal.Users.Migrations;
 
 public sealed class AdminCreateTableMigration : IDatabaseMigration
 {
+    /// <summary>
+    /// Подключение к базе данных
+    /// </summary>
     private readonly IDbConnection _connection;
+
+    /// <summary>
+    /// Логгер миграции создания таблицы admin
+    /// </summary>
     private readonly ILogger<AdminCreateTableMigration> _logger;
 
+    /// <summary>
+    /// Создает экземпляр миграции создания таблицы администраторов
+    /// </summary>
+    /// <param name="connection">Подключение к базе данных</param>
+    /// <param name="logger">Логгер миграции</param>
     public AdminCreateTableMigration(
         IDbConnection connection,
         ILogger<AdminCreateTableMigration> logger)
@@ -18,6 +30,10 @@ public sealed class AdminCreateTableMigration : IDatabaseMigration
         _logger = logger;
     }
 
+    /// <summary>
+    /// Применяет миграцию создания таблицы admin
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены операции</param>
     public async Task ApplyAsync(CancellationToken cancellationToken)
     {
         const string sql = @"

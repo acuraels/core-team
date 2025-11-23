@@ -10,9 +10,21 @@ namespace Dal.Users.Migrations;
 /// </summary>
 public sealed class BooksCreateTablesMigration : IDatabaseMigration
 {
+    /// <summary>
+    /// Подключение к базе данных
+    /// </summary>
     private readonly IDbConnection _connection;
+
+    /// <summary>
+    /// Логгер миграции домена книг
+    /// </summary>
     private readonly ILogger<BooksCreateTablesMigration> _logger;
 
+    /// <summary>
+    /// Создает экземпляр миграции домена книг
+    /// </summary>
+    /// <param name="connection">Подключение к базе данных</param>
+    /// <param name="logger">Логгер миграции</param>
     public BooksCreateTablesMigration(
         IDbConnection connection,
         ILogger<BooksCreateTablesMigration> logger)
@@ -21,6 +33,10 @@ public sealed class BooksCreateTablesMigration : IDatabaseMigration
         _logger = logger;
     }
 
+    /// <summary>
+    /// Применяет миграцию домена книг
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены операции</param>
     public async Task ApplyAsync(CancellationToken cancellationToken)
     {
         const string sql = @"

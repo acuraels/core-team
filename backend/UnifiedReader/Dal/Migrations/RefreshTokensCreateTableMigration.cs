@@ -5,11 +5,26 @@ using Microsoft.Extensions.Logging;
 
 namespace Dal.Users.Migrations;
 
+/// <summary>
+/// refresh token migration
+/// </summary>
 public sealed class RefreshTokensCreateTableMigration : IDatabaseMigration
 {
+    /// <summary>
+    /// Подключение к базе данных
+    /// </summary>
     private readonly IDbConnection _connection;
+
+    /// <summary>
+    /// Логгер миграции создания таблицы refresh_tokens
+    /// </summary>
     private readonly ILogger<RefreshTokensCreateTableMigration> _logger;
 
+    /// <summary>
+    /// Создает экземпляр миграции создания таблицы refresh_tokens
+    /// </summary>
+    /// <param name="connection">Подключение к базе данных</param>
+    /// <param name="logger">Логгер миграции</param>
     public RefreshTokensCreateTableMigration(
         IDbConnection connection,
         ILogger<RefreshTokensCreateTableMigration> logger)
@@ -18,6 +33,10 @@ public sealed class RefreshTokensCreateTableMigration : IDatabaseMigration
         _logger = logger;
     }
 
+    /// <summary>
+    /// Применяет миграцию создания таблицы refresh_tokens
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены операции</param>
     public async Task ApplyAsync(CancellationToken cancellationToken)
     {
         const string sql = @"
