@@ -11,7 +11,7 @@ namespace Api.Controllers;
 /// Контроллер действий событий
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/events")]
 public sealed class EventsController : ControllerBase
 {
     /// <summary>
