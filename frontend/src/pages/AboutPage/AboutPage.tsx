@@ -54,9 +54,16 @@ const AboutPage = () => {
                         
                     </div>
                     <div className='hero-visual'>
-                        {/* Абстрактная визуализация цифрового билета */}
                         <div className='digital-card-mockup'>
-                            <QrCode size={120} color="#077037" strokeWidth={1} />
+                            <a 
+                                href="https://t.me/echb14_bot" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                style={{ cursor: 'pointer', display: 'inline-flex' }}
+                                title="Перейти в Telegram-бот"
+                            >
+                                <img src='/public/qr.svg' width="120" height="120" alt='qr'/>
+                            </a>
                             <div className='mockup-text'>Читательский билет</div>
                         </div>
                     </div>
