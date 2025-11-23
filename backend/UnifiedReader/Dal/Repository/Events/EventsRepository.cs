@@ -5,15 +5,26 @@ using Dapper;
 
 namespace Dal.Repository.Events;
 
+/// <summary>
+/// Реализация репозитория событий
+/// </summary>
 public sealed class EventsRepository : IEventsRepository
 {
+    /// <summary>
+    /// Подключение к базе данных
+    /// </summary>
     private readonly IDbConnection _connection;
 
+    /// <summary>
+    /// Создает экземпляр репозитория событий
+    /// </summary>
+    /// <param name="connection">Подключение к базе данных</param>
     public EventsRepository(IDbConnection connection)
     {
         _connection = connection;
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<EventWithStats>> GetAllWithStatsAsync(CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -45,6 +56,7 @@ ORDER BY e.start_at;
         return result.ToArray();
     }
 
+    /// <inheritdoc />
     public async Task<EventWithStats?> GetByIdWithStatsAsync(long id, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -77,6 +89,7 @@ GROUP BY e.id, e.name, e.description, e.start_at, e.end_at, e.event_image;
         return result;
     }
 
+    /// <inheritdoc />
     public async Task<bool> ExistsAsync(long id, CancellationToken cancellationToken)
     {
         const string sql = @"SELECT 1 FROM events WHERE id = @Id;";
@@ -95,6 +108,7 @@ GROUP BY e.id, e.name, e.description, e.start_at, e.end_at, e.event_image;
         return result.HasValue;
     }
 
+    /// <inheritdoc />
     public async Task RegisterAsync(long eventId, Guid userId, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -119,6 +133,7 @@ ON CONFLICT (event_id, user_id) DO NOTHING;
                 cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc />
     public async Task MarkVisitedAsync(long eventId, Guid userId, CancellationToken cancellationToken)
     {
         const string sql = @"

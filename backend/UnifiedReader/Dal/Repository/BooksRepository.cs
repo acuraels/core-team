@@ -17,6 +17,7 @@ public sealed class BooksRepository : IBooksRepository
         _connection = connection;
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyCollection<ClassBookEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -40,6 +41,7 @@ ORDER BY name;
         return result.ToArray();
     }
 
+    /// <inheritdoc />
     public async Task<ClassBookEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -63,6 +65,7 @@ WHERE id = @Id;
         return result;
     }
 
+    /// <inheritdoc />
     public async Task CreateAsync(ClassBookEntity book, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -76,6 +79,7 @@ VALUES (@Id, @Name, @Description, @PublishedYear, @Author, @ImgPath, @Isbn);
             new CommandDefinition(sql, book, cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc />
     public async Task UpdateAsync(ClassBookEntity book, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -96,6 +100,7 @@ WHERE id = @Id;
             new CommandDefinition(sql, book, cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc />
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         const string sql = @"DELETE FROM class_book WHERE id = @Id;";
@@ -106,6 +111,7 @@ WHERE id = @Id;
             new CommandDefinition(sql, new { Id = id }, cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc />
     public async Task TruncateAsync(CancellationToken cancellationToken)
     {
         const string sql = @"TRUNCATE TABLE class_book CASCADE;";
@@ -115,6 +121,7 @@ WHERE id = @Id;
         await _connection.ExecuteAsync(new CommandDefinition(sql, cancellationToken: cancellationToken));
     }
 
+    /// <inheritdoc />
     public async Task BulkInsertAsync(IEnumerable<ClassBookEntity> books, CancellationToken cancellationToken)
     {
         const string sql = @"
@@ -128,6 +135,9 @@ VALUES (@Id, @Name, @Description, @PublishedYear, @Author, @ImgPath, @Isbn);
             new CommandDefinition(sql, books, cancellationToken: cancellationToken));
     }
 
+    /// <summary>
+    /// Гарантирует, что подключение к базе данных открыто
+    /// </summary>
     private void EnsureConnectionOpened()
     {
         if (_connection.State is not ConnectionState.Open)

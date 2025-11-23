@@ -79,6 +79,11 @@ services:
       - backend
       # - ai
 
+  bot:
+    build:
+      context: bot
+      dockerfile: Dockerfile
+
 
 volumes:
   postgres_data:
