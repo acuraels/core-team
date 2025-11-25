@@ -29,6 +29,10 @@ const BooksPage = () => {
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
     const [favoriteIds, setFavoriteIds] = useState<(string | number)[]>([]);
+    
+    const [recommendations, setRecommendations] = useState<Book[]>([]);
+    const [recommendationsLoading, setRecommendationsLoading] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string | null>(null);
 
     // читаем роль и токен из localStorage
     useEffect(() => {
@@ -38,9 +42,11 @@ const BooksPage = () => {
 
         const token = localStorage.getItem("access_token");
         const role = (localStorage.getItem("user_role") as UserRole) || null;
+        const userIdStr = localStorage.getItem("user_id");
 
         setIsAuthorized(!!token);
         setUserRole(role);
+        setUserId(userIdStr);
     }, []);
 
     // читаем избранное из localStorage
@@ -128,6 +134,43 @@ const BooksPage = () => {
         fetchBooks();
     }, []);
 
+    // загружаем рекомендации от ИИ если пользователь авторизован
+    useEffect(() => {
+        if (!isAuthorized || !userId || !isReader) {
+            return;
+        }
+
+        const fetchRecommendations = async () => {
+            try {
+                setRecommendationsLoading(true);
+                const response = await axiosInstance.get(
+                    `http://localhost:8001/api/v1/recommend/${userId}`
+                );
+                const apiBooks = response.data as any[];
+
+                const mapped: Book[] = apiBooks.map((b) => {
+                    return {
+                        id: b.id ?? b.Id,
+                        name: b.name ?? b.Name,
+                        author: b.author ?? b.Author,
+                        year: b.publishedYear ?? b.PublishedYear,
+                        coverUrl: b.coverUrl ?? b.CoverUrl ?? b.imgPath ?? b.ImgPath ?? undefined,
+                        description: b.description ?? b.Description ?? undefined,
+                    };
+                });
+
+                setRecommendations(mapped);
+            } catch (error) {
+                console.error("Ошибка при загрузке рекомендаций:", error);
+                setRecommendations([]);
+            } finally {
+                setRecommendationsLoading(false);
+            }
+        };
+
+        fetchRecommendations();
+    }, [isAuthorized, userId, isReader]);
+
     return (
         <>
             <Header />
@@ -166,6 +209,38 @@ const BooksPage = () => {
                                 }
                             />
                         ))}
+                    </div>
+                )}
+
+                {isReader && (
+                    <div className="recommendations-section">
+                        <h2 className="recommendations-title">ИИ рекомендует</h2>
+                        {recommendationsLoading ? (
+                            <div className="empty-books-wrapper">
+                                <p className="empty-books-text">Загружаем рекомендации...</p>
+                            </div>
+                        ) : recommendations.length === 0 ? (
+                            <div className="empty-books-wrapper">
+                                <p className="empty-books-text">
+                                    Рекомендации пока не доступны. Добавьте больше книг в избранное!
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="books-list">
+                                {recommendations.map((book) => (
+                                    <BookCard
+                                        key={book.id}
+                                        book={book}
+                                        mode="reader"
+                                        showFavorite={isReader}
+                                        isFavorite={isReader && favoriteIds.includes(book.id)}
+                                        onToggleFavorite={
+                                            isReader ? () => toggleFavorite(book.id) : undefined
+                                        }
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </main>

@@ -39,6 +39,7 @@ const LoginPage = () => {
             });
 
             localStorage.setItem("access_token", data.accessToken);
+            localStorage.setItem("Bearer", data.accessToken);
             localStorage.setItem("refresh_token", data.refreshToken);
             localStorage.setItem("user_id", data.userId);
 
