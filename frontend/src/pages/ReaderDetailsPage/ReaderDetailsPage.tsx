@@ -78,7 +78,7 @@ const ReaderDetailsPage = () => {
                 author: "Джордж Оруэлл",
                 year: 1949,
                 coverUrl: "../../../public/fakecover.jpg",
-                storageCode: "84(4Вел)-9 О-78", // пример шифра
+                storageCode: "84(4Вел)-9 О-78", // а-ля шифр
             },
             {
                 id: 102,
@@ -131,7 +131,7 @@ const ReaderDetailsPage = () => {
             return;
         }
 
-        // TODO: здесь будет реальный запрос к бэку от имени библиотекаря:
+        // TODO: здесь будет запрос к бэку от имени библиотекаря:
         // await axiosInstance.post(`/readers/${id}/change-password`, { newPassword });
 
         await new Promise((resolve) => setTimeout(resolve, 400));

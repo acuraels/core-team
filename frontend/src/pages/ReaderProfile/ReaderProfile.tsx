@@ -9,6 +9,7 @@ import BookCard from "../../components/BookCard/BookCard";
 import axiosInstance from "../../utils/axiosInstance";
 
 import "./ReaderProfile.css";
+import BarCode from "../../components/BarCode/BarCode";
 
 interface Book {
     id: string | number;
@@ -51,7 +52,7 @@ const ReaderProfile = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
 
-    // грузим данные текущего пользователя с бэка
+    // грузим текущего пользователя с бэка
     useEffect(() => {
         const fetchMe = async () => {
             try {
@@ -63,7 +64,6 @@ const ReaderProfile = () => {
                     login: data.login,
                 });
 
-                // 6-значный идентификатор из бэка
                 if (data.identifier && data.identifier.length > 0) {
                     setReaderCode(data.identifier);
                 } else {
@@ -75,7 +75,7 @@ const ReaderProfile = () => {
             } catch (error) {
                 console.error("Не удалось загрузить данные читателя:", error);
 
-                // простая заглушка, если запрос упал
+                // если запрос упал
                 setReaderInfo({
                     name: "Имя",
                     surname: "Фамилия",
@@ -92,7 +92,7 @@ const ReaderProfile = () => {
         fetchMe();
     }, []);
 
-    // статика для раздела "Моя бронь"
+    // моки для раздела "Моя бронь"
     useEffect(() => {
         const mockReserved: Book[] = [
             {
@@ -126,7 +126,7 @@ const ReaderProfile = () => {
         }, 50);
     }, []);
 
-    // статика под избранное
+    // моки под избранное
     useEffect(() => {
         const mockFavorites: Book[] = [
             {
@@ -150,7 +150,7 @@ const ReaderProfile = () => {
         }, 50);
     }, []);
 
-    // статика под выданные
+    // моки под выданные
     useEffect(() => {
         const mockIssued: Book[] = [
             {
@@ -224,7 +224,7 @@ const ReaderProfile = () => {
             return;
         }
 
-        // тут потом будет реальный запрос на смену пароля
+        // тут потом будет запрос на смену пароля
 
         await new Promise((resolve) => setTimeout(resolve, 400));
 
@@ -259,15 +259,7 @@ const ReaderProfile = () => {
                                 {readerCode || "••••••"}
                             </p>
 
-                            <div className="reader-barcode">
-                                <div
-                                    className="reader-barcode-visual"
-                                    aria-hidden="true"
-                                />
-                                <p className="reader-barcode-text">
-                                    {readerCode || "000000"}
-                                </p>
-                            </div>
+                            <BarCode readerCode={readerCode} />
 
                             <p className="reader-card-hint">
                                 Покажите штрихкод на входе или на стойке регистрации —

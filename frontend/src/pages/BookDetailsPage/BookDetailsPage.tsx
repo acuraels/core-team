@@ -1,4 +1,3 @@
-// src/pages/BookDetailsPage/BookDetailsPage.tsx
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Heart } from "lucide-react";
@@ -168,7 +167,6 @@ const BookDetailsPage = () => {
         }
 
         try {
-            // простой пример: бронь на 7 дней вперёд
             const now = new Date();
             const end = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
@@ -176,7 +174,7 @@ const BookDetailsPage = () => {
                 bookingEnd: end.toISOString(),
             });
 
-            // сюда можно добавить уведомление пользователю об успешной брони
+            // сюда можно добавить уведомление пользователю об успешной брони, если успеем
         } catch (error) {
             console.error("Ошибка при бронировании книги:", error);
         }

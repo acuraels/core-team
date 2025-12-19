@@ -33,7 +33,6 @@ const BookCard: React.FC<BookCardProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // твой роут: /book/:id
     navigate(`/book/${book.id}`, { state: { book } });
   };
 

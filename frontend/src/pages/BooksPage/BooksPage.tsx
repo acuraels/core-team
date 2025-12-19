@@ -1,4 +1,3 @@
-// src/pages/BooksPage/BooksPage.tsx
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -67,11 +66,11 @@ const BooksPage = () => {
                 setFavoriteIds(parsed);
             }
         } catch {
-            // игнорируем битые данные
+            // игнор
         }
     }, []);
 
-    // пишем избранное в localStorage
+    // сохраняем избранное в localStorage при изменении
     useEffect(() => {
         if (typeof window === "undefined") {
             return;
@@ -89,14 +88,12 @@ const BooksPage = () => {
         }
 
         try {
-            // если уже в избранном – удаляем
             if (favoriteIds.includes(id)) {
                 await axiosInstance.delete(`books/${id}/favorite`);
                 setFavoriteIds((prev) => prev.filter((x) => x !== id));
                 return;
             }
 
-            // иначе добавляем в избранное
             await axiosInstance.post(`books/${id}/favorite`);
             setFavoriteIds((prev) => [...prev, id]);
         } catch (error) {

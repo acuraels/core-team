@@ -187,7 +187,7 @@ const AboutPage = () => {
                     </div>
                 </section>
 
-                {/* FEATURES GRID */}
+                {/* FEATURES */}
                 <section className="features-section">
                     <h2 className="section-title">Цифровая среда нового поколения</h2>
                     <div className="features-grid">

@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Users, UserCheck } from 'lucide-react';
 import './EventCard.css';
 
-// Интерфейс, который используется внутри React компонентов
 export interface LibraryEvent {
   id: number;
   name: string;
   description: string;
-  start_at: string;      // Отформатированная дата для отображения
-  end_at: string;        // Отформатированная дата для отображения
+  start_at: string;
+  end_at: string;
   event_image?: string;
-  registered_count: number; // Маппинг с RegistrationsCount
-  visitors_count: number;   // Маппинг с VisitorsCount
+  registered_count: number;
+  visitors_count: number;
 }
 
 interface EventCardProps {

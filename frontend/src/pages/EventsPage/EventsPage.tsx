@@ -10,7 +10,7 @@ const EventsPage = () => {
     const [events, setEvents] = useState<LibraryEvent[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Форматирование даты: "24 ноября 18:00"
+    // Форматирование даты: "{число} {месяц} {время}"
     const formatDate = (isoString: string) => {
         if (!isoString) return '';
         const date = new Date(isoString);
@@ -22,12 +22,11 @@ const EventsPage = () => {
         });
     };
 
-    // НОВАЯ ФУНКЦИЯ: Расчет длительности в минутах
     const calculateDuration = (startIso: string, endIso: string) => {
         const start = new Date(startIso).getTime();
         const end = new Date(endIso).getTime();
         const diffMs = end - start;
-        const minutes = Math.round(diffMs / 60000); // Переводим мс в минуты
+        const minutes = Math.round(diffMs / 60000);
         return `${minutes} минут`;
     };
 

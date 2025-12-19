@@ -10,8 +10,8 @@ interface Reader {
     id: string | number;
     name: string;
     surname: string;
-    overdueCount: number; // просрочено книг
-    takenCount: number;   // всего взято книг
+    overdueCount: number; // просрочено
+    takenCount: number;   // всего взято
 }
 
 const ReadersPage = () => {
